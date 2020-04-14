@@ -1,3 +1,4 @@
+import { AuthModule } from './../../auth/auth.module';
 import { ConfigModule } from './../../config/config.module';
 import { Module } from '@nestjs/common';
 import { StudentController } from './student/student.controller';
@@ -15,6 +16,7 @@ import { PassportModule } from '@nestjs/passport';
       defaultStrategy: 'jwt',
     }),
     ConfigModule,
+    AuthModule,
   ],
 })
 export class StudentModule {}

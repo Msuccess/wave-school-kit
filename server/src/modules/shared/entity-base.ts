@@ -1,12 +1,18 @@
-import { PrimaryGeneratedColumn, BaseEntity, Column } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  Column,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 export class EntityBase extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', default: new Date(Date.now()) })
+  @CreateDateColumn()
   createdAt: string;
 
-  @Column({ type: 'varchar', default: new Date(Date.now()) })
-  updateDate: string;
+  @UpdateDateColumn()
+  updatedAt: string;
 }

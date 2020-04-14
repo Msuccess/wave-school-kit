@@ -34,8 +34,8 @@ export class UserEntity {
 
   @OneToOne(
     () => StudentEntity,
-    student => student.id,
+    student => student.user,
     { eager: false },
   )
-  studentId: StudentEntity;
+  student: StudentEntity;
 }

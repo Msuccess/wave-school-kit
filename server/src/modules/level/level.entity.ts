@@ -20,7 +20,7 @@ export class LevelEntity extends EntityBase {
 
   @OneToMany(
     () => SubjectEntity,
-    subject => subject.id,
+    subject => subject.level,
   )
   subject: SubjectEntity[];
 }

@@ -6,4 +6,6 @@ export class CreateLevelDto {
 
   @IsNotEmpty({ message: 'Teacher cannot be null' })
   teacher: string;
+
+  subject: Array<string>;
 }

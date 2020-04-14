@@ -20,7 +20,7 @@ export class SubjectEntity extends EntityBase {
 
   @ManyToOne(
     () => StudentEntity,
-    student => student.id,
+    student => student.subject,
   )
   student: StudentEntity;
 

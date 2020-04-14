@@ -18,7 +18,7 @@ export class GuardianEntity extends UserBaseEntity {
 
   @OneToMany(
     () => StudentEntity,
-    student => student.id,
+    student => student.guardian,
   )
   student: StudentEntity[];
 }

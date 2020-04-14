@@ -1,4 +1,10 @@
-import { Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 export enum Gender {
   MALE = 'male',
@@ -16,11 +22,11 @@ export class UserBaseEntity extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: '50' })
   lastname: string;
 
-  @Column({ type: 'varchar', default: new Date(Date.now()) })
-  createdAt: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @Column({ type: 'varchar', default: new Date(Date.now()) })
-  updateDate: string;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string;

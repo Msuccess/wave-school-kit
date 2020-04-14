@@ -2,7 +2,14 @@ import { UserEntity } from './../user/user.entity';
 import { GuardianEntity } from './../guardian/guardian.entity';
 import { SubjectEntity } from './../subject/subject.entity';
 import { LevelEntity } from './../level/level.entity';
-import { Entity, Column, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { UserBaseEntity } from '../shared/user-baseentity';
 
 @Entity({ name: 'StudentTable' })
@@ -17,15 +24,6 @@ export class StudentEntity extends UserBaseEntity {
   @Column({ type: 'date', nullable: true })
   birthdate: Date;
 
-  @ManyToOne(
-    () => LevelEntity,
-    level => level.student,
-  )
-  level: LevelEntity;
-
-  @Column({ nullable: false })
-  levelId: string;
-
   @Column({ type: 'varchar', nullable: true, length: '10' })
   term: string;
 
@@ -35,25 +33,29 @@ export class StudentEntity extends UserBaseEntity {
   @Column({ type: 'varchar', nullable: true })
   special_needs: string;
 
+  @OneToOne(
+    () => UserEntity,
+    user => user.student,
+    { cascade: true },
+  )
+  user: UserEntity;
+
+  @ManyToOne(
+    () => GuardianEntity,
+    guardian => guardian.student,
+  )
+  @JoinColumn()
+  guardian: GuardianEntity;
+
   @OneToMany(
     () => SubjectEntity,
-    subject => subject.id,
+    subject => subject.student,
   )
   subject: SubjectEntity[];
 
   @ManyToOne(
-    () => GuardianEntity,
-    guardian => guardian.id,
+    () => LevelEntity,
+    level => level.student,
   )
-  guardian: GuardianEntity;
-
-  @Column({ nullable: false })
-  guardianId: string;
-
-  @OneToOne(
-    () => UserEntity,
-    user => user.id,
-    { cascade: true },
-  )
-  user: UserEntity;
+  level: LevelEntity;
 }
