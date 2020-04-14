@@ -1,0 +1,43 @@
+import { FuseNavigation } from '@fuse/types';
+
+export const navigation: FuseNavigation[] = [
+    {
+        id: 'dashboard',
+        title: 'Applications',
+        translate: 'NAV.DASHBOARD',
+        type: 'group',
+        icon: 'apps'
+    },
+    {
+        id: 'dashboard',
+        title: 'Dashboard',
+        translate: 'NAV.DASHBOARD',
+        type: 'item',
+        icon: 'dashboard',
+        url: 'admin/dashboard'
+    },
+    {
+        id: 'class',
+        title: 'Class',
+        translate: 'NAV.CLASS',
+        type: 'item',
+        icon: 'class',
+        url: 'admin/class'
+    },
+    {
+        id: 'subject',
+        title: 'Subject',
+        translate: 'NAV.SUBJECT',
+        type: 'item',
+        icon: 'subject',
+        url: 'admin/subject'
+    },
+    {
+        id: 'student',
+        title: 'Student',
+        translate: 'NAV.STUDENT',
+        type: 'item',
+        icon: 'group',
+        url: 'admin/student'
+    }
+];
