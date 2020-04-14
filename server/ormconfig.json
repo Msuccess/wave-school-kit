@@ -1,0 +1,12 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "keepConnectionAlive": true,
+  "autoLoadEntities": true,
+  "username": "postgres",
+  "password": "admin",
+  "database": "SchoolDB_dev",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true  
+}
