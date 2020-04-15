@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthRegisterComponent } from './auth-register/auth-register.component';
 
 const routes: Routes = [
     {
@@ -27,7 +28,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [AuthLoginComponent, ResetPasswordComponent],
+    declarations: [AuthLoginComponent, ResetPasswordComponent, AuthRegisterComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

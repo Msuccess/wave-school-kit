@@ -17,6 +17,4 @@ export class CreateUserDto {
   public password: string;
 
   public role: UserRole;
-
-  public code: string;
 }

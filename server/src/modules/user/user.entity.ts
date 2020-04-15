@@ -29,9 +29,6 @@ export class UserEntity {
   @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', nullable: false, unique: true })
-  code: string;
-
   @OneToOne(
     () => StudentEntity,
     student => student.user,
