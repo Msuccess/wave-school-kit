@@ -25,7 +25,6 @@ import { SampleModule } from 'app/main/sample/sample.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { StudentModule } from './modules/admin/student/student.module';
-import { JwtModule } from '@auth0/angular-jwt';
 import { SharedModule } from './modules/shared/shared.module';
 
 const appRoutes: Routes = [
@@ -64,15 +63,6 @@ export function tokenGetter() {
 
         // Material moment date module
         MatMomentDateModule,
-
-        //Jwt Auth0 Authentication
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter,
-                whitelistedDomains: ['localhost:3000'],
-                blacklistedRoutes: ['http://localhost:3000/auth/register']
-            }
-        }),
 
         // Material
         MatButtonModule,

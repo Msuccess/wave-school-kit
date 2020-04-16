@@ -18,14 +18,29 @@ export class JwtAuthService {
 
     // Error Handler
 
-    private handleError<T>(operation = 'operation', result?: any) {
-        return (error: any): Observable<any> => {
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
+    // private handleError<T>(operation = 'operation', result?: any) {
+    //     return (error: any): Observable<any> => {
+    //         console.error(error);
+    //         return from(result);
+    //     };
+    // }
 
-            // Let the app keep running by returning an empty result.
-            return from(result);
-        };
+    handleError(error) {
+        let errorMessage = '';
+
+        if (error.error instanceof ErrorEvent) {
+            // client-side error
+
+            errorMessage = `Error: ${error.error.message}`;
+        } else {
+            // server-side error
+
+            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        }
+
+        console.log('errorMessage' + errorMessage);
+
+        return throwError(errorMessage);
     }
 
     public onLogin(username: string, password: string) {
@@ -49,7 +64,7 @@ export class JwtAuthService {
     public onRegister(credential: RegistrationModel): Observable<any> {
         return this.httpClient.post(this.registerUrl, credential).pipe(
             catchError((err) => {
-                this.handleError('register', []);
+                this.handleError(err);
                 return throwError(err);
             })
         );

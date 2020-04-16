@@ -15,7 +15,6 @@ import { NotificationService } from 'app/modules/shared/services/notification.se
     animations: fuseAnimations
 })
 export class AuthRegisterComponent implements OnInit {
-    has;
     registerForm: FormGroup;
     registrationModel = {} as RegistrationModel;
     hasFormErrors: boolean;
@@ -52,12 +51,18 @@ export class AuthRegisterComponent implements OnInit {
             username: [this.registrationModel.username, Validators.required],
             email: [
                 this.registrationModel.email,
-                [Validators.required, Validators.email]
+                Validators.compose([Validators.required, Validators.email])
             ],
-            password: [this.registrationModel.password, Validators.required],
+            password: [
+                this.registrationModel.password,
+                Validators.compose([
+                    Validators.required,
+                    Validators.minLength(8)
+                ])
+            ],
             phoneNumber: [
                 this.registrationModel.phoneNumber,
-                [Validators.required]
+                Validators.required
             ]
         });
     }
@@ -84,13 +89,7 @@ export class AuthRegisterComponent implements OnInit {
                 );
                 console.log('========>Success' + res);
             },
-            (err) => {
-                console.log('========>Error' + err);
-                this._notification.alert(
-                    'Make sure all details are valid',
-                    'error'
-                );
-            }
+            (err) => {}
         );
     }
 
