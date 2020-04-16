@@ -25,6 +25,8 @@ import { SampleModule } from 'app/main/sample/sample.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { StudentModule } from './modules/admin/student/student.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { SharedModule } from './modules/shared/shared.module';
 
 const appRoutes: Routes = [
     {
@@ -45,6 +47,11 @@ const appRoutes: Routes = [
     }
 ];
 
+// Exporting the token getter function instead of adding it directly to the imports
+export function tokenGetter() {
+    return localStorage.getItem('token');
+}
+
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -57,6 +64,15 @@ const appRoutes: Routes = [
 
         // Material moment date module
         MatMomentDateModule,
+
+        //Jwt Auth0 Authentication
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                whitelistedDomains: ['localhost:3000'],
+                blacklistedRoutes: ['http://localhost:3000/auth/register']
+            }
+        }),
 
         // Material
         MatButtonModule,
@@ -74,7 +90,8 @@ const appRoutes: Routes = [
         SampleModule,
         AuthenticationModule,
         AdminModule,
-        StudentModule
+        StudentModule,
+        SharedModule
     ],
     bootstrap: [AppComponent]
 })

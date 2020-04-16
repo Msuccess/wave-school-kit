@@ -24,11 +24,19 @@ const routes: Routes = [
     {
         path: 'login/reset-password',
         component: ResetPasswordComponent
+    },
+    {
+        path: 'register',
+        component: AuthRegisterComponent
     }
 ];
 
 @NgModule({
-    declarations: [AuthLoginComponent, ResetPasswordComponent, AuthRegisterComponent],
+    declarations: [
+        AuthLoginComponent,
+        ResetPasswordComponent,
+        AuthRegisterComponent
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

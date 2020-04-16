@@ -1,0 +1,10 @@
+<div id="successId" *ngIf="data.type === type">
+    <i class="fas fa-check"></i>
+    &nbsp;
+    <span>{{ data.message }}</span>
+</div>
+<div id="errorId" *ngIf="data.type !== type">
+    <i class="fas fa-times"></i>
+    &nbsp;
+    <span>{{ data.message }}</span>
+</div>
