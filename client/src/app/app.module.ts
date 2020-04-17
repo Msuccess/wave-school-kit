@@ -26,6 +26,8 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 import { AdminModule } from './modules/admin/admin.module';
 import { StudentModule } from './modules/admin/student/student.module';
 import { SharedModule } from './modules/shared/shared.module';
+import { authInterceptorProviders } from './core/auth/auth.interceptor';
+import { AuthGuard } from './core/auth/auth.guard';
 
 const appRoutes: Routes = [
     {
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
     {
         path: 'admin',
         loadChildren: () =>
-            import('./modules/admin/admin.module').then((m) => m.AdminModule)
+            import('./modules/admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AuthGuard]
     },
     {
         path: '**',
@@ -83,6 +86,7 @@ export function tokenGetter() {
         StudentModule,
         SharedModule
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    providers: [authInterceptorProviders]
 })
 export class AppModule {}

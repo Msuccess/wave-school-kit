@@ -3,9 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
-import { RegistrationModel } from '../auth.model';
-import { JwtAuthService } from 'app/core/jwt-auth.service';
+import { RegistrationModel } from '../models/auth.model';
 import { NotificationService } from 'app/modules/shared/services/notification.service';
+import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
     selector: 'app-auth-register',
@@ -24,7 +24,7 @@ export class AuthRegisterComponent implements OnInit {
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
-        private _jwtAuth: JwtAuthService,
+        private _authService: AuthService,
         private _notification: NotificationService
     ) {
         // Configure the layout
@@ -62,34 +62,26 @@ export class AuthRegisterComponent implements OnInit {
             ],
             phoneNumber: [
                 this.registrationModel.phoneNumber,
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.pattern('^([()\\- x+]*\\d[()\\- x+]*){4,16}$')
+                ])
             ]
         });
     }
 
     register() {
-        // this.hasFormErrors = false;
-        // this.invalidCreds$.next(false);
-
-        // if (this.registerForm.invalid) {
-        //     const controls = this.registerForm.controls;
-        //     Object.keys(controls).forEach((key) =>
-        //         controls[key].markAsTouched()
-        //     );
-        //     this.hasFormErrors = true;
-        //     return;
-        // }
-
-        // this.showProgressBar$.next(true);
-        this._jwtAuth.onRegister(this.registerForm.value).subscribe(
+        this._authService.signUp(this.registerForm.value).subscribe(
             (res: any) => {
                 this._notification.alert(
                     'Your Details Saved Successfully',
                     'success'
                 );
-                console.log('========>Success' + res);
             },
-            (err) => {}
+            (err) => {
+                console.log(err);
+                debugger;
+            }
         );
     }
 
