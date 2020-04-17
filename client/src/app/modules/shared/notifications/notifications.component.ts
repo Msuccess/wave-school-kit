@@ -10,7 +10,7 @@ export class NotificationsComponent implements OnInit {
     constructor(@Inject(MAT_SNACK_BAR_DATA) public data: ConfirmOptions) {}
     type: string = 'success';
 
-    ngOnInit() {}
+    ngOnInit(): void {}
 }
 
 export class ConfirmOptions {

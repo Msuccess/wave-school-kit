@@ -15,11 +15,13 @@ import { AuthService } from 'app/core/auth/auth.service';
     animations: fuseAnimations
 })
 export class AuthRegisterComponent implements OnInit {
+    showLoadingSpinner$ = new BehaviorSubject<boolean>(false);
     registerForm: FormGroup;
     registrationModel = {} as RegistrationModel;
-    hasFormErrors: boolean;
+    hasFormErrors: Boolean = false;
     invalidCreds$: BehaviorSubject<any>;
     showProgressBar$: BehaviorSubject<any>;
+    errorMessage: string;
 
     constructor(
         private _fuseConfigService: FuseConfigService,
@@ -46,7 +48,7 @@ export class AuthRegisterComponent implements OnInit {
         };
     }
 
-    createRegistrationForm() {
+    createRegistrationForm(): void {
         this.registerForm = this._formBuilder.group({
             username: [this.registrationModel.username, Validators.required],
             email: [
@@ -70,19 +72,30 @@ export class AuthRegisterComponent implements OnInit {
         });
     }
 
-    register() {
+    register(): void {
+        this.showLoadingSpinner$.next(true);
         this._authService.signUp(this.registerForm.value).subscribe(
             (res: any) => {
+                this.showLoadingSpinner$.next(false);
                 this._notification.alert(
                     'Your Details Saved Successfully',
                     'success'
                 );
             },
             (err) => {
-                console.log(err);
-                debugger;
+                this.showLoadingSpinner$.next(false);
+                const errorMessage = err.error.message.detail;
+                if (errorMessage.includes('already exists')) {
+                    this.hasFormErrors = true;
+                    this.errorMessage = 'Username has already been taken';
+                }
+                console.log(err.error.message.detail);
             }
         );
+    }
+
+    closeAlert() {
+        this.hasFormErrors = false;
     }
 
     ngOnInit(): void {
