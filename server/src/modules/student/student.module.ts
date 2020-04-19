@@ -1,3 +1,6 @@
+import { LevelModule } from './../level/level.module';
+import { GuardianModule } from './../guardian/guardian.module';
+import { UserModule } from './../user/user.module';
 import { AuthModule } from './../../auth/auth.module';
 import { ConfigModule } from './../../config/config.module';
 import { Module } from '@nestjs/common';
@@ -17,6 +20,9 @@ import { PassportModule } from '@nestjs/passport';
     }),
     ConfigModule,
     AuthModule,
+    UserModule,
+    GuardianModule,
+    LevelModule,
   ],
 })
 export class StudentModule {}

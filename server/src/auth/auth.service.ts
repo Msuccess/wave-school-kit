@@ -1,4 +1,4 @@
-import { SECRET, EXPIRESIN } from './../config/config';
+import { EXPIRESIN } from './../config/config';
 import { UserRole } from './../modules/user/user.entity';
 import { ResultException } from '../config/result';
 import { PasswordEncrypterService } from './password-encrypter/password-encrypter.service';
@@ -8,7 +8,6 @@ import { Result } from './../config/result';
 import { CreateUserDto } from './../modules/user/dto/create-user.dto';
 import { UserService } from './../modules/user/user/user.service';
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import * as randomize from 'randomatic';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -33,12 +32,7 @@ export class AuthService {
       newUser.username = user.username;
       newUser.role = user.role;
 
-      await this.userService.createUser(newUser);
-      return {
-        status: HttpStatus.OK,
-        message: this.message.registerMessage,
-        data: newUser,
-      };
+      return await this.userService.createUser(newUser);
     } else {
       throw new HttpException(
         { message: this.message.userAlreadyExist },
@@ -64,7 +58,7 @@ export class AuthService {
             dbUser.role,
           );
 
-          return new Result(HttpStatus.OK, this.message.logInMessage, token);
+          return { token, dbUser };
         }
       }
       return new ResultException(

@@ -16,5 +16,6 @@ import { PassportModule } from '@nestjs/passport';
     }),
     ConfigModule,
   ],
+  exports: [GuardianService],
 })
 export class GuardianModule {}

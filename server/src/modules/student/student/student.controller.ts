@@ -41,7 +41,7 @@ export class StudentController {
   @Get('/:id')
   @Roles('admin', 'teacher', 'student')
   public async getStudentById(@Param('id') id: string, @Res() res: Response) {
-    const response = await this.studentService.getStudent(id);
+    const response = (await this.studentService.getStudent(id)) || null;
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });
@@ -72,7 +72,7 @@ export class StudentController {
       .json({ message: this.messageService.successMessage, data: response });
   }
 
-  @Put()
+  @Put('/:id')
   @Roles('admin', 'teacher')
   public async updateStudent(
     @Param('id') id: string,

@@ -22,20 +22,16 @@ export class UserEntity {
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.STUDENT,
+    default: UserRole.ADMIN,
   })
   role: UserRole;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', nullable: false, unique: true })
-  code: string;
-
   @OneToOne(
     () => StudentEntity,
     student => student.user,
-    { eager: false },
   )
   student: StudentEntity;
 }

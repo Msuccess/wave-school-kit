@@ -21,8 +21,8 @@ export class StudentEntity extends UserBaseEntity {
   })
   studentId: string;
 
-  @Column({ type: 'date', nullable: true })
-  birthdate: Date;
+  @Column({ type: 'varchar', nullable: true })
+  birthdate: string;
 
   @Column({ type: 'varchar', nullable: true, length: '10' })
   term: string;
@@ -36,26 +36,32 @@ export class StudentEntity extends UserBaseEntity {
   @OneToOne(
     () => UserEntity,
     user => user.student,
-    { cascade: true },
+    { cascade: true, eager: true },
   )
+  @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
   @ManyToOne(
     () => GuardianEntity,
     guardian => guardian.student,
+    { cascade: true, eager: true },
   )
-  @JoinColumn()
+  @JoinColumn({ name: 'guardianId' })
   guardian: GuardianEntity;
 
   @OneToMany(
     () => SubjectEntity,
     subject => subject.student,
+    { cascade: true, eager: true },
   )
+  @JoinColumn({ name: 'subjectId' })
   subject: SubjectEntity[];
 
   @ManyToOne(
     () => LevelEntity,
     level => level.student,
+    { cascade: true, eager: true },
   )
+  @JoinColumn({ name: 'levelId' })
   level: LevelEntity;
 }

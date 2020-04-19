@@ -1,5 +1,7 @@
-import { UserRole } from './../../user/user.entity';
-import { IsNotEmpty, IsDateString, Length, IsEmail } from 'class-validator';
+import { LevelEntity } from './../../level/level.entity';
+import { GuardianEntity } from './../../guardian/guardian.entity';
+import { UserEntity } from './../../user/user.entity';
+import { IsNotEmpty, Length, IsEmail } from 'class-validator';
 
 export class CreateStudentDto {
   @IsNotEmpty({ message: 'Firstname cannot be null!' })
@@ -11,8 +13,8 @@ export class CreateStudentDto {
   @IsNotEmpty({ message: 'Gender cannot be null' })
   gender: string;
 
-  @IsDateString({ message: 'Must have type Date String' })
-  birthdate: Date;
+  // @IsDateString({ message: 'Birthdate Must have type Date String' })
+  birthdate: string;
 
   @IsNotEmpty({ message: 'Term cannot be null' })
   term: string;
@@ -23,14 +25,21 @@ export class CreateStudentDto {
 
   previous_school: string;
 
-  levelId: string;
-
   special_needs: string;
 
+  @IsNotEmpty({ message: 'Guardian cannot be null' })
   guardianId: string;
 
+  user: UserEntity;
+  guardian: GuardianEntity;
+
+  @IsNotEmpty({ message: 'Level cannot be null' })
+  levelId: string;
+
+  level: LevelEntity;
+
   @IsNotEmpty({ message: 'phonenumber cannot be null' })
-  public phoneNumber: string;
+  public phonenumber: string;
 
   @IsNotEmpty({ message: 'username cannot be null' })
   username: string;

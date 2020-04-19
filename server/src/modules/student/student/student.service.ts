@@ -1,7 +1,8 @@
+import { LevelService } from './../../level/level/level.service';
+import { GuardianService } from './../../guardian/guardian/guardian.service';
+import { UserService } from './../../user/user/user.service';
 import { UserRole } from './../../user/user.entity';
-import { Roles } from 'src/auth/roles.decorator';
 import { CreateUserDto } from './../../user/dto/create-user.dto';
-import { UserDto } from './../../user/dto/user.dto';
 import { AuthService } from './../../../auth/auth.service';
 import { ResultException } from './../../../config/result';
 import { CreateStudentDto } from './../dto/create-student.dto';
@@ -14,7 +15,10 @@ export class StudentService {
   constructor(
     @InjectRepository(StudentRepository)
     private studentRepository: StudentRepository,
+    private userService: UserService,
     private auth: AuthService,
+    private guardianService: GuardianService,
+    private levelService: LevelService,
   ) {}
 
   public async getStudents() {
@@ -43,24 +47,44 @@ export class StudentService {
 
   public async addStudent(newStudent: CreateStudentDto) {
     // TODO: Add Index Number Algor.
+    const newUser = new CreateUserDto();
+    newUser.password = newStudent.password;
+    newUser.email = newStudent.email;
+    newUser.phoneNumber = newStudent.phonenumber;
+    newUser.username = newStudent.username;
+    newUser.role = UserRole.STUDENT;
 
     try {
-      const newUser = new CreateUserDto();
-      newUser.password = newStudent.password;
-      newUser.email = newStudent.email;
-      newUser.phoneNumber = newStudent.phoneNumber;
-      newUser.username = newStudent.username;
-      newUser.role = UserRole.STUDENT;
-      this.auth.signUp(newUser);
+      const user = this.auth.signUp(newUser);
+      newStudent.user = await user;
 
-      return await this.studentRepository.save(newStudent);
+      newStudent.guardian = await this.guardianService.getGuardian(
+        newStudent.guardianId,
+      );
+
+      newStudent.level = await this.levelService.getLevel(newStudent.levelId);
+
+      return await this.studentRepository.saveStudentEntity(newStudent);
     } catch (error) {
+      this.userService.deleteUser(newStudent.user?.id);
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
   public async updateStudent(id: string, newStudent: CreateStudentDto) {
     try {
+      if (newStudent.guardianId) {
+        newStudent.guardian = await this.guardianService.getGuardian(
+          newStudent.guardianId,
+        );
+        delete newStudent.guardianId;
+      }
+
+      if (newStudent.levelId) {
+        newStudent.level = await this.levelService.getLevel(newStudent.levelId);
+        delete newStudent.levelId;
+      }
+
       return await this.studentRepository.update(id, newStudent);
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);

@@ -16,5 +16,6 @@ import { PassportModule } from '@nestjs/passport';
     }),
     ConfigModule,
   ],
+  exports: [LevelService],
 })
 export class LevelModule {}

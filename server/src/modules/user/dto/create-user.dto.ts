@@ -2,6 +2,7 @@ import { IsNotEmpty, IsEmail, Length } from 'class-validator';
 import { UserRole } from '../user.entity';
 
 export class CreateUserDto {
+  id: string;
   @IsNotEmpty({ message: 'phonenumber cannot be null' })
   public phoneNumber: string;
 
@@ -17,6 +18,4 @@ export class CreateUserDto {
   public password: string;
 
   public role: UserRole;
-
-  public code: string;
 }

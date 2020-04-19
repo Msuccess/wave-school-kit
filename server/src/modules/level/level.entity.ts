@@ -15,7 +15,7 @@ export class LevelEntity extends EntityBase {
     () => StudentEntity,
     student => student.id,
   )
-  @JoinColumn({ name: 'id' })
+  @JoinColumn()
   student: StudentEntity[];
 
   @OneToMany(

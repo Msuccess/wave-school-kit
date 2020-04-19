@@ -9,4 +9,8 @@ export class StudentRepository extends Repository<StudentEntity> {
       .where('Student.level = :level', { level: level })
       .getMany();
   }
+
+  public async saveStudentEntity(student: any) {
+    return await StudentEntity.save(student);
+  }
 }
