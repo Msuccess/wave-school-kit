@@ -21,6 +21,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SubjectListComponent } from './subject/subject-list/subject-list.component';
+import { SelectedSubjectSidebarComponent } from './subject/selected-subject-sidebar/selected-subject-sidebar.component';
+import { SubjectFormComponent } from './subject/subject-form/subject-form.component';
+import { MatProgressBarModule } from '@angular/material';
+import { ClassListComponent } from './class/class-list/class-list.component';
+import { ClassFormComponent } from './class/class-form/class-form.component';
 
 const routes: Routes = [
     {
@@ -48,7 +54,12 @@ const routes: Routes = [
         ClassComponent,
         ProgrammeComponent,
         TeacherComponent,
-        SubjectComponent
+        SubjectComponent,
+        SubjectListComponent,
+        SelectedSubjectSidebarComponent,
+        SubjectFormComponent,
+        ClassListComponent,
+        ClassFormComponent
     ],
     imports: [
         CommonModule,
@@ -68,6 +79,7 @@ const routes: Routes = [
         MatInputModule,
         MatTableModule,
         MatToolbarModule,
+        MatProgressBarModule,
 
         // * app modules
 
@@ -76,6 +88,7 @@ const routes: Routes = [
         FuseWidgetModule
     ],
     providers: [DashboardService],
+    entryComponents: [SubjectFormComponent],
     exports: [RouterModule]
 })
 export class AdminModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ErrorHandler } from '@angular/core';
 import {
     HttpHeaders,
     HttpClient,
@@ -18,36 +18,32 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class AuthService {
-    currentUser = {};
-
-    signupUrl = environment.apiUrl + 'auth/register';
-    loginUrl = environment.apiUrl + 'auth/login';
-    userProfileUrl = environment.apiUrl + 'user';
+    signupEndPoint = environment.apiUrl + 'auth/register';
+    loginEndPoint = environment.apiUrl + 'auth/login';
+    userProfileEndPoint = environment.apiUrl + 'user';
 
     constructor(private http: HttpClient, public router: Router) {}
 
     // Sign-up
     signUp(user_credential: RegistrationModel): Observable<any> {
         return this.http
-            .post(this.signupUrl, user_credential)
+            .post(this.signupEndPoint, user_credential)
             .pipe(catchError(this.handleError));
     }
 
     // Sign-in
-    signIn(user_credential: RegistrationModel) {
+    signIn(user_credential: RegistrationModel): Observable<any> {
         return this.http
-            .post<any>(this.loginUrl, user_credential)
-            .subscribe((res: any) => {
-                localStorage.setItem('access_token', res.token);
-                this.getUserProfile(res._id).subscribe((res) => {
-                    this.currentUser = res;
-                    this.router.navigate(['admin/dashboard' + res.msg._id]);
-                });
-            });
+            .post<any>(this.loginEndPoint, user_credential)
+            .pipe(catchError(this.handleError));
     }
 
     getToken() {
         return localStorage.getItem('access_token');
+    }
+
+    setToken(token: any) {
+        window.localStorage.setItem('access_token', token);
     }
 
     isLoggedIn(): boolean {
@@ -64,13 +60,23 @@ export class AuthService {
 
     // User profile
     getUserProfile(id): Observable<any> {
-        let api = `${this.userProfileUrl}/${id}`;
+        let api = `${this.userProfileEndPoint}/${id}`;
         return this.http.get(api, { headers: httpOptions.headers }).pipe(
             map((res: Response) => {
                 return res || {};
             }),
             catchError(this.handleError)
         );
+    }
+
+    // Decode Token
+    decodeJwtToken(token: any): any {
+        if (!token) {
+            return {};
+        }
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(window.atob(base64));
     }
 
     // Error

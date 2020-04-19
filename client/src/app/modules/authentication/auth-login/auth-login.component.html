@@ -11,11 +11,20 @@
                 params: { duration: '300ms', y: '100px' }
             }"
         >
+            <ng-container *ngIf="showProgressBar$ | async">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </ng-container>
+
             <div class="logo">
                 <img src="assets/images/logos/fuse.svg" />
             </div>
 
             <div class="title">LOGIN TO YOUR ACCOUNT</div>
+            <ng-container>
+                <div *ngIf="hasFormErrors" (onClosed)="closeAlert($event)">
+                    {{ errorMessage }}
+                </div>
+            </ng-container>
 
             <form
                 name="loginForm"
@@ -24,21 +33,13 @@
                 (submit)="loginSubmit($event)"
             >
                 <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" />
-                    <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username" />
+                    <mat-icon matSuffix class="secondary-text">user</mat-icon>
                     <mat-error
-                        *ngIf="loginForm.get('email').hasError('required')"
+                        *ngIf="loginForm.get('username').hasError('required')"
                     >
                         Email is required
-                    </mat-error>
-                    <mat-error
-                        *ngIf="
-                            !loginForm.get('email').hasError('required') &&
-                            loginForm.get('email').hasError('email')
-                        "
-                    >
-                        Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
 

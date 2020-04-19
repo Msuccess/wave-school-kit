@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { RegistrationModel } from '../models/auth.model';
 import { NotificationService } from 'app/modules/shared/services/notification.service';
 import { AuthService } from 'app/core/auth/auth.service';
+import { applicationMessages } from 'app/core/constants/applicationMessages';
 
 @Component({
     selector: 'app-auth-register',
@@ -15,12 +16,10 @@ import { AuthService } from 'app/core/auth/auth.service';
     animations: fuseAnimations
 })
 export class AuthRegisterComponent implements OnInit {
-    showLoadingSpinner$ = new BehaviorSubject<boolean>(false);
     registerForm: FormGroup;
     registrationModel = {} as RegistrationModel;
     hasFormErrors: Boolean = false;
-    invalidCreds$: BehaviorSubject<any>;
-    showProgressBar$: BehaviorSubject<any>;
+    showProgressBar$ = new BehaviorSubject<boolean>(false);
     errorMessage: string;
 
     constructor(
@@ -73,23 +72,24 @@ export class AuthRegisterComponent implements OnInit {
     }
 
     register(): void {
-        this.showLoadingSpinner$.next(true);
+        this.showProgressBar$.next(true);
         this._authService.signUp(this.registerForm.value).subscribe(
             (res: any) => {
-                this.showLoadingSpinner$.next(false);
+                this.showProgressBar$.next(false);
                 this._notification.alert(
                     'Your Details Saved Successfully',
                     'success'
                 );
             },
             (err) => {
-                this.showLoadingSpinner$.next(false);
-                const errorMessage = err.error.message.detail;
-                if (errorMessage.includes('already exists')) {
-                    this.hasFormErrors = true;
-                    this.errorMessage = 'Username has already been taken';
+                this.showProgressBar$.next(false);
+                if (err.type === 'error') {
+                    this.errorMessage =
+                        applicationMessages.SHARED.internetConnection;
+                } else if (err.detail.includes('already exists')) {
+                    this.errorMessage = applicationMessages.AUTH.usernameExists;
                 }
-                console.log(err.error.message.detail);
+                this.hasFormErrors = true;
             }
         );
     }

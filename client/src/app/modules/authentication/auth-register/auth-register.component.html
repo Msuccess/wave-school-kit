@@ -11,20 +11,8 @@
                 params: { duration: '300ms', y: '100px' }
             }"
         >
-            <ng-container *ngIf="showLoadingSpinner$ | async">
+            <ng-container *ngIf="showProgressBar$ | async">
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </ng-container>
-
-            <ng-container>
-                <!-- <ngb-alert [type]="'warning'" (close)="closeAlert($event)">
-                    Hellllloooowdsdsdsdsdsss {{ errorMessage }}
-                </ngb-alert> -->
-                <alert
-                    [type]="'warning'"
-                    (onClosed)="closeAlert($event)"
-                    [dismissible]="'dismissible'"
-                    >Somefgfgfgffgfgf</alert
-                >
             </ng-container>
 
             <div class="logo">
@@ -32,6 +20,15 @@
             </div>
 
             <div class="title">CREATE AN ACCOUNT</div>
+            <ng-container>
+                <alert
+                    [type]="'danger'"
+                    *ngIf="hasFormErrors"
+                    (onClosed)="closeAlert($event)"
+                    [dismissible]="'dismissible'"
+                    >{{ errorMessage }}</alert
+                >
+            </ng-container>
 
             <form name="registerForm" [formGroup]="registerForm" novalidate>
                 <mat-form-field appearance="outline">
