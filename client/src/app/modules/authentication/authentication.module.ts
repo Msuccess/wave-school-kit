@@ -1,3 +1,4 @@
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthLoginComponent } from './auth-login/auth-login.component';
@@ -10,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthRegisterComponent } from './auth-register/auth-register.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 const routes: Routes = [
     {
@@ -23,11 +26,19 @@ const routes: Routes = [
     {
         path: 'login/reset-password',
         component: ResetPasswordComponent
+    },
+    {
+        path: 'register',
+        component: AuthRegisterComponent
     }
 ];
 
 @NgModule({
-    declarations: [AuthLoginComponent, ResetPasswordComponent],
+    declarations: [
+        AuthLoginComponent,
+        ResetPasswordComponent,
+        AuthRegisterComponent
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -36,6 +47,8 @@ const routes: Routes = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatProgressBarModule,
+        AlertModule.forRoot(),
 
         FuseSharedModule
     ],

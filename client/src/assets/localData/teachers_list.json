@@ -1,0 +1,33 @@
+[
+    {
+        "id": "g6-5001",
+        "name": "Peter Donkor",
+        "subject_taught": "Mathematics",
+        "qualification": "Masters",
+        "address": "Kasoa New MArket"
+    },
+
+    {
+        "id": "g6-6002",
+        "name": "John Doe",
+        "subject_taught": "Science",
+        "qualification": "HND",
+        "address": "Kasoa New MArket"
+    },
+
+    {
+        "id": "g6-7003",
+        "name": "Micheal Agbesi",
+        "subject_taught": "Social Studies",
+        "qualification": "DBS",
+        "address": "Kasoa New MArket"
+    },
+
+    {
+        "id": "g6-8004",
+        "name": "Samuel Nkum",
+        "subject_taught": "RME",
+        "qualification": "SHS",
+        "address": "Kasoa New MArket"
+    }
+]
