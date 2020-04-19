@@ -76,6 +76,7 @@ export class SubjectController {
   @Roles('admin')
   public async delete(@Param('id') id: string, @Res() res: Response) {
     const response = await this.subjectService.deleteSubject(id);
+
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });

@@ -1,4 +1,3 @@
-import { SubjectEntity } from './../subject/subject.entity';
 import { StudentEntity } from './../student/student.entity';
 import { Entity, Column, OneToMany, JoinColumn } from 'typeorm';
 import { EntityBase } from '../shared/entity-base';
@@ -17,10 +16,4 @@ export class LevelEntity extends EntityBase {
   )
   @JoinColumn()
   student: StudentEntity[];
-
-  @OneToMany(
-    () => SubjectEntity,
-    subject => subject.level,
-  )
-  subject: SubjectEntity[];
 }

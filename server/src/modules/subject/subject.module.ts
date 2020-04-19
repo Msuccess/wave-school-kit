@@ -1,3 +1,4 @@
+import { LevelModule } from './../level/level.module';
 import { ConfigModule } from './../../config/config.module';
 import { Module } from '@nestjs/common';
 import { SubjectService } from './subject/subject.service';
@@ -15,6 +16,7 @@ import { PassportModule } from '@nestjs/passport';
       defaultStrategy: 'jwt',
     }),
     ConfigModule,
+    LevelModule,
   ],
 })
 export class SubjectModule {}
