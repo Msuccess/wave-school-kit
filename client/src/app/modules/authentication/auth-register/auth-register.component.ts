@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject, BehaviorSubject } from 'rxjs';
@@ -26,7 +27,8 @@ export class AuthRegisterComponent implements OnInit {
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private _authService: AuthService,
-        private _notification: NotificationService
+        private _notification: NotificationService,
+        private route: Router
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -80,6 +82,7 @@ export class AuthRegisterComponent implements OnInit {
                     'Your Details Saved Successfully',
                     'success'
                 );
+                this.route.navigate(['/admin/login']);
             },
             (err) => {
                 this.showProgressBar$.next(false);

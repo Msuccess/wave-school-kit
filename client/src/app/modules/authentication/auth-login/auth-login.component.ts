@@ -14,7 +14,7 @@ import { applicationMessages } from 'app/core/constants/applicationMessages';
     templateUrl: './auth-login.component.html',
     styleUrls: ['./auth-login.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: fuseAnimations
 })
 export class AuthLoginComponent implements OnInit {
     showProgressBar$ = new BehaviorSubject<boolean>(false);
@@ -34,25 +34,25 @@ export class AuthLoginComponent implements OnInit {
         this._fuseConfigService.config = {
             layout: {
                 navbar: {
-                    hidden: true,
+                    hidden: true
                 },
                 toolbar: {
-                    hidden: true,
+                    hidden: true
                 },
                 footer: {
-                    hidden: true,
+                    hidden: true
                 },
                 sidepanel: {
-                    hidden: true,
-                },
-            },
+                    hidden: true
+                }
+            }
         };
     }
 
     createLoginForm() {
         this.loginForm = this._formBuilder.group({
             username: [this.loginFormModel.username, [Validators.required]],
-            password: [this.loginFormModel.password, Validators.required],
+            password: [this.loginFormModel.password, Validators.required]
         });
     }
 
@@ -60,7 +60,8 @@ export class AuthLoginComponent implements OnInit {
         this.showProgressBar$.next(true);
         this._authService.signIn(this.loginForm.value).subscribe(
             (res) => {
-                this._authService.setToken(res.token);
+                debugger;
+                this._authService.setToken(res.data.token.token);
                 this.showProgressBar$.next(false);
                 this._notification.alert('Login Successful', 'success');
                 this.route.navigate(['/admin/dashboard']);

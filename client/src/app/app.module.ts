@@ -17,17 +17,17 @@ import {
     FuseThemeOptionsModule
 } from '@fuse/components';
 
-import { fuseConfig } from 'app/fuse-config';
-
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
+
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { StudentModule } from './modules/admin/student/student.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { authInterceptorProviders } from './core/auth/auth.interceptor';
 import { AuthGuard } from './core/auth/auth.guard';
+import { fuseConfig } from './core/fuse-config';
+import { SampleModule } from './core/main/sample/sample.module';
 
 const appRoutes: Routes = [
     {

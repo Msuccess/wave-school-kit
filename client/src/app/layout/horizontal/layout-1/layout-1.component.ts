@@ -3,16 +3,15 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
-import { navigation } from 'app/navigation/navigation';
+import { navigation } from '../../../layout/navigation/navigation';
 
 @Component({
-    selector     : 'horizontal-layout-1',
-    templateUrl  : './layout-1.component.html',
-    styleUrls    : ['./layout-1.component.scss'],
+    selector: 'horizontal-layout-1',
+    templateUrl: './layout-1.component.html',
+    styleUrls: ['./layout-1.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class HorizontalLayout1Component implements OnInit, OnDestroy
-{
+export class HorizontalLayout1Component implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
 
@@ -24,10 +23,7 @@ export class HorizontalLayout1Component implements OnInit, OnDestroy
      *
      * @param {FuseConfigService} _fuseConfigService
      */
-    constructor(
-        private _fuseConfigService: FuseConfigService
-    )
-    {
+    constructor(private _fuseConfigService: FuseConfigService) {
         // Set the defaults
         this.navigation = navigation;
 
@@ -42,8 +38,7 @@ export class HorizontalLayout1Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to config changes
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
@@ -55,8 +50,7 @@ export class HorizontalLayout1Component implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
