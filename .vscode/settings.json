@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 10000,
+            "database": "SchoolDB_dev",
+            "dialect": "PostgreSQL",
+            "name": "PostgressSQL",
+            "password": "postgress",
+            "port": 5432,
+            "server": "localhost",
+            "username": "postgres"
+        }
+    ]
+}

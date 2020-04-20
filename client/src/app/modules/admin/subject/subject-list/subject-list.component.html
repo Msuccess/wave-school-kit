@@ -1,1 +1,69 @@
-<p>subject-list works!</p>
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{ value: '50' }">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <mat-checkbox
+                [(ngModel)]="checkboxes[element.id]"
+                (click)="$event.stopPropagation()"
+            >
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <p class="text-truncate font-weight-600">{{ element.name }}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Subject Code Column -->
+    <ng-container matColumnDef="code">
+        <mat-header-cell *matHeaderCellDef>Subject Code</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <p class="email text-truncate">
+                {{ element.subjectCode }}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreMenu"
+                    aria-label="More"
+                    (click)="$event.stopPropagation()"
+                >
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="edit">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+
+                    <button mat-menu-item aria-label="remove">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="contact"
+        matRipple
+        [@animate]="{ value: '*', params: { y: '100%' } }"
+    >
+    </mat-row>
+</mat-table>

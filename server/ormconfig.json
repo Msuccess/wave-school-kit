@@ -5,7 +5,7 @@
   "keepConnectionAlive": true,
   "autoLoadEntities": true,
   "username": "postgres",
-  "password": "admin",
+  "password": "postgress",
   "database": "SchoolDB_dev",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
