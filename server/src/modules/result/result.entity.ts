@@ -6,8 +6,7 @@ import { EntityBase } from '../shared/entity-base';
 export class ResultEntity extends EntityBase {
   @OneToOne(
     () => SubjectEntity,
-    subject => subject.id,
-    { eager: false },
+    subject => subject.result,
   )
   subject: SubjectEntity;
 

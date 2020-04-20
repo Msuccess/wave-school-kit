@@ -1,3 +1,5 @@
+import { SubjectEntity } from './../../subject/subject.entity';
+import { SubjectService } from './../../subject/subject/subject.service';
 import { ResultException } from './../../../config/result';
 import { LevelRepository } from './../level.repository';
 import { Injectable, HttpStatus } from '@nestjs/common';
@@ -6,9 +8,11 @@ import { CreateLevelDto } from '../dto/create-level.dto';
 
 @Injectable()
 export class LevelService {
+  subjects: SubjectEntity[] = [];
   constructor(
     @InjectRepository(LevelRepository)
     private levelRepository: LevelRepository,
+    private subjectService: SubjectService,
   ) {}
 
   public async getLevels() {
@@ -29,6 +33,9 @@ export class LevelService {
 
   public async addLevel(newLevel: CreateLevelDto) {
     try {
+      await this.pushLevels(newLevel.subjectIds);
+
+      newLevel.subjects = this.subjects;
       return await this.levelRepository.save(newLevel);
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
@@ -49,5 +56,17 @@ export class LevelService {
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  private async pushLevels(subjectIds: string[]) {
+    for (let index = 0; index < subjectIds.length; index++) {
+      const element = subjectIds[index];
+      const subject = await this.getSubject(element);
+      this.subjects.push(subject);
+    }
+  }
+
+  private async getSubject(id: string) {
+    return await this.subjectService.getSubject(id);
   }
 }

@@ -1,3 +1,4 @@
+import { SubjectEntity } from './../../subject/subject.entity';
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateLevelDto {
@@ -6,4 +7,8 @@ export class CreateLevelDto {
 
   @IsNotEmpty({ message: 'Teacher cannot be null' })
   teacher: string;
+
+  subjectIds: string[];
+
+  subjects: SubjectEntity[];
 }
