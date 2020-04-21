@@ -62,18 +62,6 @@
         fxLayoutAlign="end center"
     >
         <button
-            *ngIf="action === 'edit'"
-            mat-button
-            color="accent"
-            class="mr-8"
-            (click)="matDialogRef.close(['delete', subjectForm])"
-            aria-label="Delete"
-            matTooltip="Delete"
-        >
-            DELETE
-        </button>
-
-        <button
             *ngIf="action !== 'edit'"
             mat-button
             color="accent"
@@ -90,7 +78,7 @@
             mat-button
             color="accent"
             class="save-button"
-            (click)="matDialogRef.close(['save', subjectForm])"
+            (click)="updateSubject(subjectForm)"
             [disabled]="subjectForm.invalid"
             aria-label="SAVE"
         >

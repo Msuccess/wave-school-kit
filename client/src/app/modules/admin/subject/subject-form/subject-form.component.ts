@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { TeachersService } from '../../services/teachers.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SubjectModel } from '../../models/subject.model';
-import { SubjectService } from '../../services/subject.service';
 import { NotificationService } from 'app/modules/shared/services/notification.service';
 import { applicationMessages } from 'app/core/constants/applicationMessages';
 import { BehaviorSubject } from 'rxjs';
+import { SubjectService } from '../service/subject.service';
+import { SubjectModel } from '../models/subject.model';
 
 @Component({
     selector: 'app-subject-form',
@@ -23,11 +22,11 @@ export class SubjectFormComponent implements OnInit {
     hasFormErrors: Boolean = false;
     subjectForm: FormGroup;
     subjectModel = {} as SubjectModel;
-    teachersList: any;
     showProgressBar$ = new BehaviorSubject<boolean>(false);
+    form_data: any;
+    getSelectedSubjectId: string;
 
     constructor(
-        private _teachersList: TeachersService,
         public matDialogRef: MatDialogRef<SubjectFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
@@ -36,21 +35,16 @@ export class SubjectFormComponent implements OnInit {
     ) {
         // Set the defaults
         this.action = _data.action;
+        this.form_data = _data.subject;
 
         if (this.action === 'edit') {
             this.dialogTitle = 'Edit Contact';
-            this.subjects = this.subjectModel;
+            this.subjectModel = _data.subject;
+            this.getSelectedSubjectId = _data.subject.id;
         } else {
             this.dialogTitle = 'New Subject';
             this.subjects = new SubjectModel({});
         }
-
-        this._teachersList.getTeachersList().subscribe(
-            (res) => {
-                this.teachersList = res;
-            },
-            (err) => {}
-        );
     }
 
     createSubjectForm() {
@@ -70,6 +64,7 @@ export class SubjectFormComponent implements OnInit {
                 );
                 this.matDialogRef.close();
                 this.showProgressBar$.next(false);
+                this._subjectService.onSubjectsChanged.next(true);
             },
             (err) => {
                 if (err.message.includes('Http failure response')) {
@@ -81,6 +76,19 @@ export class SubjectFormComponent implements OnInit {
                 this.showProgressBar$.next(false);
             }
         );
+    }
+
+    updateSubject(formDetails) {
+        this._subjectService
+            .updateSubject(this.getSelectedSubjectId, formDetails.value)
+            .subscribe((res) => {
+                this._notification.alert(
+                    applicationMessages.SUBJECT.subject_updated,
+                    'success'
+                );
+                this.matDialogRef.close();
+                this._subjectService.onSubjectsChanged.next(true);
+            });
     }
 
     ngOnInit() {

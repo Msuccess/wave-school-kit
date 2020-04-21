@@ -4,7 +4,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule, FuseSidebarModule } from '@fuse/components';
-import { DashboardService } from './services/dashboard.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +23,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SubjectListComponent } from './subject/subject-list/subject-list.component';
 import { SelectedSubjectSidebarComponent } from './subject/selected-subject-sidebar/selected-subject-sidebar.component';
 import { SubjectFormComponent } from './subject/subject-form/subject-form.component';
-import { MatProgressBarModule } from '@angular/material';
+import { MatProgressBarModule, MatChipsModule } from '@angular/material';
 import { ClassListComponent } from './class/class-list/class-list.component';
 import { ClassFormComponent } from './class/class-form/class-form.component';
 
@@ -80,6 +79,7 @@ const routes: Routes = [
         MatTableModule,
         MatToolbarModule,
         MatProgressBarModule,
+        MatChipsModule,
 
         // * app modules
 
@@ -87,8 +87,8 @@ const routes: Routes = [
         FuseSharedModule,
         FuseWidgetModule
     ],
-    providers: [DashboardService],
-    entryComponents: [SubjectFormComponent],
+    providers: [],
+    entryComponents: [SubjectFormComponent, ClassFormComponent],
     exports: [RouterModule]
 })
 export class AdminModule {}

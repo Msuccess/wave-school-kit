@@ -85,6 +85,7 @@ $typography: mat-typography-config(
 @import './modules/authentication/reset-password/reset-password-theme';
 @import './modules/authentication/auth-register/auth-register-theme';
 @import './modules/admin/subject/subject-theme';
+@import './modules/admin/class/class-theme';
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -95,6 +96,7 @@ $typography: mat-typography-config(
     @include reset-password-theme($theme);
     @include auth-register-theme($theme);
     @include subjects-theme($theme);
+    @include class-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

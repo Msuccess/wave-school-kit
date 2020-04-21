@@ -1,1 +1,93 @@
-<p>class-list works!</p>
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{ value: '50' }">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let classDetails">
+            <mat-checkbox
+                [(ngModel)]="checkboxes[classDetails.id]"
+                (click)="$event.stopPropagation()"
+            >
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Class Name</mat-header-cell>
+        <mat-cell *matCellDef="let classDetails">
+            <p class="text-truncate font-weight-600">
+                {{ classDetails.name }}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Teacher Column -->
+    <ng-container matColumnDef="teacher">
+        <mat-header-cell *matHeaderCellDef>Teacher</mat-header-cell>
+        <mat-cell *matCellDef="let subjectDetails">
+            <p class="email text-truncate">
+                {{ subjectDetails.teacher }}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Teacher Column -->
+    <ng-container matColumnDef="subjects">
+        <mat-header-cell *matHeaderCellDef>Subjects</mat-header-cell>
+        <mat-cell *matCellDef="let subjectDetails">
+            <mat-chip-list aria-label="Fish selection">
+                <mat-chip>One fish</mat-chip>
+                <mat-chip>Two fish</mat-chip>
+                <mat-chip color="primary" selected>Primary fish</mat-chip>
+                <mat-chip color="accent" selected>Accent fish</mat-chip>
+            </mat-chip-list>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let classDetails">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreMenu"
+                    aria-label="More"
+                    (click)="$event.stopPropagation()"
+                >
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button
+                        mat-menu-item
+                        aria-label="edit"
+                        (click)="editClass(classDetails)"
+                    >
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+
+                    <button
+                        mat-menu-item
+                        aria-label="remove"
+                        (click)="deleteClass(classDetails.id)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="contact"
+        (click)="addClass()"
+        matRipple
+        [@animate]="{ value: '*', params: { y: '100%' } }"
+    >
+    </mat-row>
+</mat-table>

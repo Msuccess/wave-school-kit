@@ -2,9 +2,9 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let subjectDetails">
             <mat-checkbox
-                [(ngModel)]="checkboxes[element.id]"
+                [(ngModel)]="checkboxes[subjectDetails.id]"
                 (click)="$event.stopPropagation()"
             >
             </mat-checkbox>
@@ -14,17 +14,19 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <p class="text-truncate font-weight-600">{{ element.name }}</p>
+        <mat-cell *matCellDef="let subjectDetails">
+            <p class="text-truncate font-weight-600">
+                {{ subjectDetails.name }}
+            </p>
         </mat-cell>
     </ng-container>
 
     <!-- Subject Code Column -->
     <ng-container matColumnDef="code">
         <mat-header-cell *matHeaderCellDef>Subject Code</mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let subjectDetails">
             <p class="email text-truncate">
-                {{ element.subjectCode }}
+                {{ subjectDetails.subjectCode }}
             </p>
         </mat-cell>
     </ng-container>
@@ -32,7 +34,7 @@
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let subjectDetails">
             <div fxFlex="row" fxLayoutAlign="end center">
                 <button
                     mat-icon-button
@@ -44,12 +46,20 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="edit">
+                    <button
+                        mat-menu-item
+                        aria-label="edit"
+                        (click)="editSubject(subjectDetails)"
+                    >
                         <mat-icon>edit</mat-icon>
                         <span>Edit</span>
                     </button>
 
-                    <button mat-menu-item aria-label="remove">
+                    <button
+                        mat-menu-item
+                        aria-label="remove"
+                        (click)="deleteSubject(subjectDetails.id)"
+                    >
                         <mat-icon>delete</mat-icon>
                         <span>Remove</span>
                     </button>

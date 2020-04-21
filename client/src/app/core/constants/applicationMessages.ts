@@ -8,6 +8,8 @@ export const applicationMessages = {
         loginError: 'Username or Password incorrect'
     },
     SUBJECT: {
-        subject_saved: 'Subject Saved Successfully'
+        subject_saved: 'Subject Saved Successfully',
+        subject_deleted: 'Subject Deleted Successfully',
+        subject_updated: 'Subject Updated Successfully'
     }
 };

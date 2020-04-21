@@ -34,7 +34,7 @@ export class LevelController {
     const response = await this.levelService.getLevels();
     return res
       .status(HttpStatus.OK)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Get('/:id')
@@ -43,7 +43,7 @@ export class LevelController {
     const response = await this.levelService.getLevel(id);
     return res
       .status(HttpStatus.OK)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Post()
@@ -56,7 +56,7 @@ export class LevelController {
     const response = await this.levelService.addLevel(level);
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Put('/:id')
@@ -69,7 +69,7 @@ export class LevelController {
     const response = await this.levelService.updateLevel(id, Level);
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Delete('/:id')
@@ -78,6 +78,6 @@ export class LevelController {
     const response = await this.levelService.deleteLevel(id);
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 }

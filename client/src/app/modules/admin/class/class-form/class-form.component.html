@@ -1,1 +1,106 @@
-<p>class-form works!</p>
+<div class="dialog-content-wrapper">
+    <ng-container *ngIf="showProgressBar$ | async">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{ dialogTitle }}</span>
+            <button
+                mat-icon-button
+                (click)="matDialogRef.close()"
+                aria-label="Close dialog"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form [formGroup]="classForm">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex="100">
+                    <mat-label>Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >account_circle</mat-icon
+                    >
+                    <input
+                        name="name"
+                        formControlName="name"
+                        matInput
+                        required
+                    />
+                    <mat-error>
+                        Class Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex="100">
+                    <mat-label>Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >account_circle</mat-icon
+                    >
+                    <input
+                        name="name"
+                        formControlName="teacher"
+                        matInput
+                        required
+                    />
+                    <mat-error>
+                        Teacher is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex="100">
+                    <mat-label>Subject Code</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >account_circle</mat-icon
+                    >
+                    <input
+                        name="name"
+                        formControlName="subjectCode"
+                        matInput
+                        required
+                    />
+                    <mat-error>
+                        Subject Code is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+
+    <div
+        mat-dialog-actions
+        class="m-0 p-16"
+        fxLayout="row"
+        fxLayoutAlign="end center"
+    >
+        <button
+            *ngIf="action !== 'edit'"
+            mat-button
+            color="accent"
+            class="save-button"
+            (click)="saveClass()"
+            [disabled]="subjectForm.invalid"
+            aria-label="SAVE"
+        >
+            ADD
+        </button>
+
+        <button
+            *ngIf="action === 'edit'"
+            mat-button
+            color="accent"
+            class="save-button"
+            (click)="updateSubject(subjectForm)"
+            [disabled]="subjectForm.invalid"
+            aria-label="SAVE"
+        >
+            SAVE
+        </button>
+    </div>
+</div>

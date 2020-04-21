@@ -18,7 +18,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
-import { StudentService } from '../services/student.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -64,7 +63,7 @@ const routes: Routes = [
     ],
 
     exports: [RouterModule],
-    providers: [StudentService],
+    providers: [],
     entryComponents: []
 })
 export class StudentModule {}

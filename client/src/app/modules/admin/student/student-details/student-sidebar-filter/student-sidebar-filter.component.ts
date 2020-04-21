@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { StudentService } from 'app/modules/admin/services/student.service';
+// import { StudentService } from 'app/modules/admin/services/student.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -20,7 +20,7 @@ export class StudentSidebarFilterComponent implements OnInit {
      *
      * @param {StudentService} _studentService
      */
-    constructor(private _studentService: StudentService) {
+    constructor() {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -33,13 +33,12 @@ export class StudentSidebarFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._studentService.filterBy || 'all';
-
-        this._studentService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user) => {
-                this.user = user;
-            });
+        // this.filterBy = this._studentService.filterBy || 'all';
+        // this._studentService.onUserDataChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((user) => {
+        //         this.user = user;
+        //     });
     }
 
     /**
@@ -62,6 +61,6 @@ export class StudentSidebarFilterComponent implements OnInit {
      */
     changeFilter(filter): void {
         this.filterBy = filter;
-        this._studentService.onFilterChanged.next(this.filterBy);
+        // this._studentService.onFilterChanged.next(this.filterBy);
     }
 }

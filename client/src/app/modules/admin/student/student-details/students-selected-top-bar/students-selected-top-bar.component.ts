@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { Subject } from 'rxjs';
-import { StudentService } from 'app/modules/admin/services/student.service';
 import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -28,10 +27,7 @@ export class StudentsSelectedTopBarComponent implements OnInit {
      * @param {ContactsService} _contactsService
      * @param {MatDialog} _matDialog
      */
-    constructor(
-        private _contactsService: StudentService,
-        public _matDialog: MatDialog
-    ) {
+    constructor(public _matDialog: MatDialog) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -44,18 +40,18 @@ export class StudentsSelectedTopBarComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this._contactsService.onSelectedContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((selectedContacts) => {
-                this.selectedContacts = selectedContacts;
-                setTimeout(() => {
-                    this.hasSelectedContacts = selectedContacts.length > 0;
-                    this.isIndeterminate =
-                        selectedContacts.length !==
-                            this._contactsService.contacts.length &&
-                        selectedContacts.length > 0;
-                }, 0);
-            });
+        // this._contactsService.onSelectedContactsChanged
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((selectedContacts) => {
+        //         this.selectedContacts = selectedContacts;
+        //         setTimeout(() => {
+        //             this.hasSelectedContacts = selectedContacts.length > 0;
+        //             this.isIndeterminate =
+        //                 selectedContacts.length !==
+        //                     this._contactsService.contacts.length &&
+        //                 selectedContacts.length > 0;
+        //         }, 0);
+        //     });
     }
 
     /**
@@ -75,14 +71,14 @@ export class StudentsSelectedTopBarComponent implements OnInit {
      * Select all
      */
     selectAll(): void {
-        this._contactsService.selectContacts();
+        // this._contactsService.selectContacts();
     }
 
     /**
      * Deselect all
      */
     deselectAll(): void {
-        this._contactsService.deselectContacts();
+        // this._contactsService.deselectContacts();
     }
 
     /**
@@ -101,7 +97,7 @@ export class StudentsSelectedTopBarComponent implements OnInit {
 
         this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this._contactsService.deleteSelectedContacts();
+                // this._contactsService.deleteSelectedContacts();
             }
             this.confirmDialogRef = null;
         });

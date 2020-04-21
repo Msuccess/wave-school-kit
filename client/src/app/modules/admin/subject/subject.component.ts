@@ -25,15 +25,5 @@ export class SubjectComponent implements OnInit {
                 action: 'new'
             }
         });
-
-        // this.dialogRef.afterClosed()
-        //     .subscribe((response: FormGroup) => {
-        //         if ( !response )
-        //         {
-        //             return;
-        //         }
-
-        //         this._contactsService.updateContact(response.getRawValue());
-        //     });
     }
 }
