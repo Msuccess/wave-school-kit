@@ -11,5 +11,10 @@ export const applicationMessages = {
         subject_saved: 'Subject Saved Successfully',
         subject_deleted: 'Subject Deleted Successfully',
         subject_updated: 'Subject Updated Successfully'
+    },
+    CLASS: {
+        class_saved: 'class Saved Successfully',
+        class_deleted: 'class Deleted Successfully',
+        class_updated: 'class Updated Successfully'
     }
 };

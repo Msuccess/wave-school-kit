@@ -1,3 +1,4 @@
+import { ClassModel } from './../models/class.model';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { throwError, BehaviorSubject, Subject, Observable } from 'rxjs';
@@ -22,6 +23,35 @@ export class ClassService {
                 return throwError(err);
             })
         );
+    }
+
+    addClass(classDetails: ClassModel) {
+        return this._httpClient.post(this.classEndpoint, classDetails).pipe(
+            catchError((err) => {
+                this.handleError([]);
+                return throwError(err);
+            })
+        );
+    }
+
+    deleteClass(classId: string) {
+        return this._httpClient.delete(`${this.classEndpoint + classId}`).pipe(
+            catchError((err) => {
+                this.handleError([]);
+                return throwError(err);
+            })
+        );
+    }
+
+    updateClass(classId: string, classData: ClassModel) {
+        return this._httpClient
+            .put(`${this.classEndpoint + classId}`, classData)
+            .pipe(
+                catchError((err) => {
+                    this.handleError([]);
+                    return throwError(err);
+                })
+            );
     }
 
     // Error

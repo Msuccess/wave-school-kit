@@ -8,7 +8,6 @@ import { CreateLevelDto } from '../dto/create-level.dto';
 
 @Injectable()
 export class LevelService {
-  subjects: SubjectEntity[] = [];
   constructor(
     @InjectRepository(LevelRepository)
     private levelRepository: LevelRepository,
@@ -33,9 +32,7 @@ export class LevelService {
 
   public async addLevel(newLevel: CreateLevelDto) {
     try {
-      await this.pushLevels(newLevel.subjectIds);
-
-      newLevel.subjects = this.subjects;
+      newLevel.subjects = await this.getSubjects(newLevel.subjectIds);
       return await this.levelRepository.save(newLevel);
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
@@ -58,11 +55,13 @@ export class LevelService {
     }
   }
 
-  private async pushLevels(subjectIds: string[]) {
+  private async getSubjects(subjectIds: string[]) {
+    let subjects: SubjectEntity[] = [];
     for (let index = 0; index < subjectIds.length; index++) {
       const element = subjectIds[index];
       const subject = await this.getSubject(element);
-      this.subjects.push(subject);
+      subjects.push(subject);
+      return subjects;
     }
   }
 
