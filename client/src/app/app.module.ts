@@ -49,11 +49,6 @@ const appRoutes: Routes = [
     }
 ];
 
-// Exporting the token getter function instead of adding it directly to the imports
-export function tokenGetter() {
-    return localStorage.getItem('token');
-}
-
 @NgModule({
     declarations: [AppComponent],
     imports: [

@@ -5325,6 +5325,13 @@ ngx-cookie-service@2.2.0:
   resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.2.0.tgz#79fe67863b3b93ee226c9ea8d60e1542c7115a58"
   integrity sha512-2kaC1itlEMxiMAPJ320hOpcwU9vhvjbKQCZ1Go6bGhYjJtqG7eYvhNP7mM9IhFz1/afG2tBryJPySWmFUGhRpA==
 
+ngx-material-file-input@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-material-file-input/-/ngx-material-file-input-2.1.0.tgz#c5bec79cb880071ea42497fa4381228f08fe8b36"
+  integrity sha512-rMCuiOFg/X0yRobAUiCWzQIjZRF8SDr5cC0mZu3beD6Pyx76rFWCFJmZU+6oIzrxkLAGbXn3TPv5x1gyijuOFw==
+  dependencies:
+    tslib "^1.9.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

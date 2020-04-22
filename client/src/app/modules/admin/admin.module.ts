@@ -26,6 +26,7 @@ import { SubjectFormComponent } from './subject/subject-form/subject-form.compon
 import { MatProgressBarModule, MatChipsModule } from '@angular/material';
 import { ClassListComponent } from './class/class-list/class-list.component';
 import { ClassFormComponent } from './class/class-form/class-form.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 const routes: Routes = [
     {
@@ -80,6 +81,8 @@ const routes: Routes = [
         MatToolbarModule,
         MatProgressBarModule,
         MatChipsModule,
+
+        MaterialFileInputModule,
 
         // * app modules
 

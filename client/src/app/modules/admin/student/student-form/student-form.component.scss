@@ -1,8 +1,8 @@
 :host {
     .content {
         form {
-            width: 50%;
-            max-width: 100px !important;
+            width: 100%;
+            max-width: 800px !important;
         }
 
         .form-errors-model {
@@ -13,7 +13,12 @@
             }
         }
 
-        .horizontal-stepper-wrapper {
+        mat-horizontal-stepper.mat-elevation-z4.mat-stepper-horizontal.ng-tns-c35-6.mat-stepper-label-position-end {
+            width: 80% !important;
+        }
+
+        .horizontal-stepper-wrapper,
+        .vertical-stepper-wrapper {
             max-width: 800px;
         }
     }

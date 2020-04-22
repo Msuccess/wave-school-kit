@@ -1,3 +1,4 @@
+import { LocalDataService } from './../../../shared/services/local-data.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -12,6 +13,8 @@ import { fuseAnimations } from '@fuse/animations';
 })
 export class StudentFormComponent implements OnInit {
     form: FormGroup;
+    gender = [];
+    religion: [];
 
     // Horizontal Stepper
     horizontalStepperStep1: FormGroup;
@@ -26,7 +29,10 @@ export class StudentFormComponent implements OnInit {
      *
      * @param {FormBuilder} _formBuilder
      */
-    constructor(private _formBuilder: FormBuilder) {
+    constructor(
+        private _formBuilder: FormBuilder,
+        private _localDataService: LocalDataService
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -39,6 +45,14 @@ export class StudentFormComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this._localDataService.getGenders().subscribe((res: any) => {
+            this.gender = res;
+        });
+
+        this._localDataService.getReligions().subscribe((res: any) => {
+            this.religion = res;
+        });
+
         // Horizontal Stepper form steps
         this.horizontalStepperStep1 = this._formBuilder.group({
             firstName: ['', Validators.required],

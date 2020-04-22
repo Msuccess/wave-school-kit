@@ -20,6 +20,11 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import {
+    MaterialFileInputModule,
+    NGX_MAT_FILE_INPUT_CONFIG,
+    FileInputConfig
+} from 'ngx-material-file-input';
 
 const routes: Routes = [
     {
@@ -31,6 +36,10 @@ const routes: Routes = [
         component: StudentFormComponent
     }
 ];
+
+export const config: FileInputConfig = {
+    sizeUnit: 'Octet'
+};
 
 @NgModule({
     declarations: [
@@ -55,6 +64,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatSelectModule,
         MatStepperModule,
+        MaterialFileInputModule,
 
         // * theme specific modules
         FuseSharedModule,
@@ -63,7 +73,7 @@ const routes: Routes = [
     ],
 
     exports: [RouterModule],
-    providers: [],
+    providers: [{ provide: NGX_MAT_FILE_INPUT_CONFIG, useValue: config }],
     entryComponents: []
 })
 export class StudentModule {}
