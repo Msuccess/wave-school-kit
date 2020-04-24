@@ -52,4 +52,12 @@ export class SubjectService {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
   }
+
+  public async getSubjectsByIds(ids: string[]) {
+    try {
+      return await this.subjectRepository.findByIds(ids);
+    } catch (error) {
+      new ResultException(error, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

@@ -1,4 +1,3 @@
-import { SubjectEntity } from './../../subject/subject.entity';
 import { SubjectService } from './../../subject/subject/subject.service';
 import { ResultException } from './../../../config/result';
 import { LevelRepository } from './../level.repository';
@@ -32,7 +31,9 @@ export class LevelService {
 
   public async addLevel(newLevel: CreateLevelDto) {
     try {
-      newLevel.subjects = await this.getSubjects(newLevel.subjectIds);
+      newLevel.subjects = await this.subjectService.getSubjectsByIds(
+        newLevel.subjectIds,
+      );
       return await this.levelRepository.save(newLevel);
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
@@ -41,6 +42,17 @@ export class LevelService {
 
   public async updateLevel(id: string, newLevel: CreateLevelDto) {
     try {
+      // const r = await this.getLevel(id);
+      // r.name = newLevel.name;
+      // r.teacher = newLevel.teacher;
+
+      if (newLevel.subjectIds?.length !== 0) {
+        newLevel.subjects = await this.subjectService.getSubjectsByIds(
+          newLevel.subjectIds,
+        );
+        delete newLevel.subjectIds;
+      }
+
       return await this.levelRepository.update(id, newLevel);
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
@@ -53,19 +65,5 @@ export class LevelService {
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
-  }
-
-  private async getSubjects(subjectIds: string[]) {
-    let subjects: SubjectEntity[] = [];
-    for (let index = 0; index < subjectIds.length; index++) {
-      const element = subjectIds[index];
-      const subject = await this.getSubject(element);
-      subjects.push(subject);
-      return subjects;
-    }
-  }
-
-  private async getSubject(id: string) {
-    return await this.subjectService.getSubject(id);
   }
 }

@@ -18,12 +18,17 @@ export class LevelEntity extends EntityBase {
   @Column({ type: 'varchar', nullable: true, length: '50' })
   teacher: string;
 
-  @ManyToMany(
-    () => SubjectEntity,
-    subject => subject.levels,
-    { cascade: true, eager: true },
-  )
-  @JoinTable({ name: 'LevelsSubjectsLink' })
+  @ManyToMany(() => SubjectEntity, {
+    cascade: ['insert', 'update', 'remove'],
+    eager: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  })
+  @JoinTable({
+    name: 'LevelsSubjectsLink',
+    joinColumn: { referencedColumnName: 'id', name: 'levelId' },
+    inverseJoinColumn: { referencedColumnName: 'id', name: 'subjectId' },
+  })
   subjects: SubjectEntity[];
 
   @OneToMany(

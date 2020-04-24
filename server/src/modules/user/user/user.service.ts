@@ -63,4 +63,8 @@ export class UserService {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
   }
+
+  public async setAvatar(userId: number, avatarUrl: string) {
+    // this.usersRepository.update(userId, { avatar: avatarUrl });
+  }
 }

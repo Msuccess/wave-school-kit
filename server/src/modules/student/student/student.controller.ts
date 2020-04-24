@@ -4,6 +4,7 @@ import { CreateStudentDto } from './../dto/create-student.dto';
 import { RolesGuard } from './../../../auth/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { StudentService } from './student.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   Controller,
   UseGuards,

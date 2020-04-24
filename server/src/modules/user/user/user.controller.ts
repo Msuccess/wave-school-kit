@@ -12,11 +12,17 @@ import {
   Delete,
   UsePipes,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from '../user.entity';
 import { Roles } from '../../../auth/roles.decorator';
-
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
 @Controller('user')
 @UseGuards(AuthGuard(), RolesGuard)
 export class UserController {
@@ -51,5 +57,37 @@ export class UserController {
   @Roles('admin')
   async deleteUser(@Param('id') id: string) {
     return await this.userService.deleteUser(id);
+  }
+
+  @Post(':userid/avatar')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './avatars',
+
+        filename: (
+          _req: any,
+          file: { originalname: string },
+          cb: (arg0: any, arg1: string) => any,
+        ) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  uploadAvatar(@Param('userid') userId, @UploadedFile() file) {
+    this.userService.setAvatar(Number(userId), file);
+  }
+
+  @Get('avatars/:fileId')
+  async serveAvatar(
+    @Param('fileId') fileId: any,
+    @Res() res: Response,
+  ): Promise<any> {
+    res.sendFile(fileId, { root: 'avatars' });
   }
 }
