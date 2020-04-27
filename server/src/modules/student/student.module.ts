@@ -13,6 +13,7 @@ import { PassportModule } from '@nestjs/passport';
 @Module({
   controllers: [StudentController],
   providers: [StudentService],
+
   imports: [
     TypeOrmModule.forFeature([StudentRepository]),
     PassportModule.register({
@@ -24,5 +25,6 @@ import { PassportModule } from '@nestjs/passport';
     GuardianModule,
     LevelModule,
   ],
+  exports: [StudentService],
 })
 export class StudentModule {}

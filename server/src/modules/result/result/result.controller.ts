@@ -16,9 +16,11 @@ import {
   UseGuards,
   Res,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { ResultService } from './result.service';
 import { Response } from 'express';
+import { QueryModel } from './../../shared/model/query.model';
 
 @Controller('result')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -30,8 +32,8 @@ export class ResultController {
 
   @Get()
   @Roles('admin')
-  public async getAllResults(@Res() res: Response) {
-    const response = await this.resultService.getResults();
+  public async getAllResults(@Res() res: Response, @Query() query: QueryModel) {
+    const response = await this.resultService.getResults(query);
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });

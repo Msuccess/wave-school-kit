@@ -5,7 +5,8 @@ import { ResultService } from './result/result.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ResultRepository } from './result.repository';
 import { PassportModule } from '@nestjs/passport';
-
+import { SubjectModule } from './../subject/subject.module';
+import { StudentModule } from './../student/student.module';
 @Module({
   controllers: [ResultController],
   providers: [ResultService],
@@ -15,6 +16,8 @@ import { PassportModule } from '@nestjs/passport';
       defaultStrategy: 'jwt',
     }),
     ConfigModule,
+    SubjectModule,
+    StudentModule,
   ],
 })
 export class ResultModule {}

@@ -1,7 +1,15 @@
 import { UserEntity } from './../user/user.entity';
+import { ResultEntity } from './../result/result.entity';
 import { GuardianEntity } from './../guardian/guardian.entity';
 import { LevelEntity } from './../level/level.entity';
-import { Entity, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { UserBaseEntity } from '../shared/user-baseentity';
 
 @Entity({ name: 'StudentTable' })
@@ -48,4 +56,11 @@ export class StudentEntity extends UserBaseEntity {
   )
   @JoinColumn({ name: 'levelId' })
   level: LevelEntity;
+
+  @OneToMany(
+    () => ResultEntity,
+    result => result.student,
+    { cascade: true, eager: true },
+  )
+  result: ResultEntity;
 }

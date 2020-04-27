@@ -28,7 +28,6 @@ export class SubjectEntity extends EntityBase {
   @OneToOne(
     () => ResultEntity,
     result => result.subject,
-    { cascade: true, eager: true },
   )
   @JoinColumn()
   result: ResultEntity;

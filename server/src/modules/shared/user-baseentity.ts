@@ -28,9 +28,6 @@ export class UserBaseEntity extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ type: 'varchar', nullable: true })
-  avatar: string;
-
   @Column({ type: 'enum', nullable: true, enum: Gender })
   gender: string;
 

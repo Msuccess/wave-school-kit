@@ -4,7 +4,6 @@ import { ResultException } from '../config/result';
 import { PasswordEncrypterService } from './password-encrypter/password-encrypter.service';
 import { UserDto } from './../modules/user/dto/user.dto';
 import { MessageService } from './../config/message/message.service';
-import { Result } from './../config/result';
 import { CreateUserDto } from './../modules/user/dto/create-user.dto';
 import { UserService } from './../modules/user/user/user.service';
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';

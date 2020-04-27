@@ -1,21 +1,24 @@
-import { LevelEntity } from './../../level/level.entity';
 import { CreateSubjectDto } from './../dto/create-subject.dto';
 import { ResultException } from './../../../config/result';
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SubjectRepository } from '../subject.repository';
+import { QueryModel } from './../../shared/model/query.model';
 
 @Injectable()
 export class SubjectService {
-  levels: LevelEntity[] = [];
   constructor(
     @InjectRepository(SubjectRepository)
     private subjectRepository: SubjectRepository,
   ) {}
 
-  public async getSubjects() {
+  public async getSubjects(query: QueryModel) {
     try {
-      return await this.subjectRepository.find();
+      return await this.subjectRepository.find({
+        take: query.pageSize,
+        skip: query.pageSize * (query.page - 1),
+        order: { createdAt: 'DESC' },
+      });
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }

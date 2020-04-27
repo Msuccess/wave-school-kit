@@ -1,4 +1,5 @@
 import { StudentEntity } from './../student/student.entity';
+import { TeacherEntity } from './../teacher/teacher.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 
 export enum UserRole {
@@ -34,4 +35,13 @@ export class UserEntity {
     student => student.user,
   )
   student: StudentEntity;
+
+  @OneToOne(
+    () => TeacherEntity,
+    teacher => teacher.user,
+  )
+  teacher: TeacherEntity;
+
+  @Column({ type: 'varchar', nullable: true })
+  avatar: string;
 }

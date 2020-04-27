@@ -1,9 +1,8 @@
-import { RolesGuard } from './../../../auth/roles.guard';
-import { MessageService } from './../../../config/message/message.service';
-import { SubjectService } from './subject.service';
 import {
   Controller,
   Get,
+  Res,
+  HttpStatus,
   Param,
   Post,
   UsePipes,
@@ -11,32 +10,33 @@ import {
   Body,
   Put,
   Delete,
-  Res,
-  HttpStatus,
   UseGuards,
   Query,
 } from '@nestjs/common';
+import { MessageService } from '../../../config/message/message.service';
+import { TeacherService } from './teacher.service';
 import { Roles } from '../../../auth/roles.decorator';
-import { CreateSubjectDto } from '../dto/create-subject.dto';
 import { Response } from 'express';
+import { CreateTeacherDto } from '../dto/create-teacher.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/auth/roles.guard';
 import { QueryModel } from './../../shared/model/query.model';
 
-@Controller('subject')
+@Controller('teacher')
 @UseGuards(AuthGuard(), RolesGuard)
-export class SubjectController {
+export class TeacherController {
   constructor(
-    private subjectService: SubjectService,
+    private teacherService: TeacherService,
     private messageService: MessageService,
   ) {}
 
   @Get()
   @Roles('admin')
-  public async getAllSubjects(
+  public async getAllTeachers(
     @Res() res: Response,
     @Query() query: QueryModel,
   ) {
-    const response = await this.subjectService.getSubjects(query);
+    const response = await this.teacherService.getTeachers(query);
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });
@@ -44,8 +44,8 @@ export class SubjectController {
 
   @Get('/:id')
   @Roles('admin', 'teacher')
-  public async getSubjectById(@Param('id') id: string, @Res() res: Response) {
-    const response = await this.subjectService.getSubject(id);
+  public async getTeacherById(@Param('id') id: string, @Res() res: Response) {
+    const response = await this.teacherService.getTeacher(id);
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });
@@ -54,11 +54,11 @@ export class SubjectController {
   @Post()
   @Roles('admin', 'teacher')
   @UsePipes(ValidationPipe)
-  public async createSubject(
-    @Body() subject: CreateSubjectDto,
+  public async createTeacher(
+    @Body() Teacher: CreateTeacherDto,
     @Res() res: Response,
   ) {
-    const response = await this.subjectService.addSubject(subject);
+    const response = await this.teacherService.addTeacher(Teacher);
     return res
       .status(HttpStatus.CREATED)
       .json({ message: this.messageService.successMessage, data: response });
@@ -66,12 +66,12 @@ export class SubjectController {
 
   @Put('/:id')
   @Roles('admin', 'teacher')
-  public async updateSubject(
+  public async updateTeacher(
     @Param('id') id: string,
-    @Body() subject: CreateSubjectDto,
+    @Body() Teacher: CreateTeacherDto,
     @Res() res: Response,
   ) {
-    const response = await this.subjectService.updateSubject(id, subject);
+    const response = await this.teacherService.updateTeacher(id, Teacher);
     return res
       .status(HttpStatus.CREATED)
       .json({ message: this.messageService.successMessage, data: response });
@@ -80,7 +80,7 @@ export class SubjectController {
   @Delete('/:id')
   @Roles('admin')
   public async delete(@Param('id') id: string, @Res() res: Response) {
-    const response = await this.subjectService.deleteSubject(id);
+    const response = await this.teacherService.deleteTeacher(id);
 
     return res
       .status(HttpStatus.OK)

@@ -4,7 +4,6 @@ import { CreateStudentDto } from './../dto/create-student.dto';
 import { RolesGuard } from './../../../auth/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { StudentService } from './student.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import {
   Controller,
   UseGuards,
@@ -21,6 +20,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Roles } from '../../../auth/roles.decorator';
+import { QueryModel } from './../../shared/model/query.model';
 
 @Controller('student')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -32,8 +32,11 @@ export class StudentController {
 
   @Get()
   @Roles('admin')
-  public async getAllStudents(@Res() res: Response) {
-    const response = await this.studentService.getStudents();
+  public async getAllStudents(
+    @Res() res: Response,
+    @Query() query: QueryModel,
+  ) {
+    const response = await this.studentService.getStudents(query);
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });

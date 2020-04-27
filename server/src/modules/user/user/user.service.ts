@@ -65,6 +65,8 @@ export class UserService {
   }
 
   public async setAvatar(userId: number, avatarUrl: string) {
-    // this.usersRepository.update(userId, { avatar: avatarUrl });
+    const newUserAvatar = new CreateUserDto();
+    newUserAvatar.avatar = avatarUrl;
+    this.usersRepository.update(userId, newUserAvatar);
   }
 }

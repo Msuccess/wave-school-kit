@@ -9,6 +9,8 @@ import { CreateStudentDto } from './../dto/create-student.dto';
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentRepository } from '../student.repository';
+import { CreateDateColumn } from 'typeorm';
+import { QueryModel } from './../../shared/model/query.model';
 
 @Injectable()
 export class StudentService {
@@ -21,9 +23,13 @@ export class StudentService {
     private levelService: LevelService,
   ) {}
 
-  public async getStudents() {
+  public async getStudents(query: QueryModel) {
     try {
-      return await this.studentRepository.find();
+      return await this.studentRepository.find({
+        take: query.pageSize,
+        skip: query.pageSize * (query.page - 1),
+        order: { createdAt: 'DESC' },
+      });
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
@@ -53,6 +59,7 @@ export class StudentService {
     newUser.phoneNumber = newStudent.phonenumber;
     newUser.username = newStudent.username;
     newUser.role = UserRole.STUDENT;
+    newUser.avatar = newStudent.avatar;
 
     try {
       const user = this.auth.signUp(newUser);

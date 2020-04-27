@@ -1,10 +1,17 @@
 import { IsNotEmpty, IsEmail, Length } from 'class-validator';
-import { UserRole } from '../user.entity';
+import { UserEntity } from '../../../modules/user/user.entity';
+import { LevelEntity } from '../../../modules/level/level.entity';
 
-export class CreateUserDto {
-  id: string;
+export class CreateTeacherDto {
+  user: UserEntity;
+
+  @IsNotEmpty({ message: 'Level cannot be null' })
+  levelId: string;
+
+  level: LevelEntity;
+
   @IsNotEmpty({ message: 'phonenumber cannot be null' })
-  public phoneNumber: string;
+  public phonenumber: string;
 
   @IsNotEmpty({ message: 'username cannot be null' })
   username: string;
@@ -16,7 +23,4 @@ export class CreateUserDto {
   @Length(8)
   @IsNotEmpty({ message: 'password cannot be null' })
   public password: string;
-
-  public role: UserRole;
-  avatar: string;
 }

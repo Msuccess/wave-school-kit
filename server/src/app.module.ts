@@ -10,6 +10,8 @@ import { ResultModule } from './modules/result/result.module';
 import { LevelModule } from './modules/level/level.module';
 import { GuardianModule } from './modules/guardian/guardian.module';
 import { SubjectModule } from './modules/subject/subject.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { TeacherModule } from './modules/teacher/teacher.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { SubjectModule } from './modules/subject/subject.module';
     LevelModule,
     GuardianModule,
     SubjectModule,
+    TeacherModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

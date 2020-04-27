@@ -1,4 +1,5 @@
 import { MessageService } from './../../../config/message/message.service';
+import { QueryModel } from './../../shared/model/query.model';
 import { CreateLevelDto } from './../dto/create-level.dto';
 import {
   Controller,
@@ -13,6 +14,7 @@ import {
   UseGuards,
   Res,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { LevelService } from './level.service';
 import { Roles } from '../../../auth/roles.decorator';
@@ -30,8 +32,8 @@ export class LevelController {
 
   @Get()
   @Roles('admin')
-  public async getAllLevels(@Res() res: Response) {
-    const response = await this.levelService.getLevels();
+  public async getAllLevels(@Res() res: Response, @Query() query: QueryModel) {
+    const response = await this.levelService.getLevels(query);
     return res
       .status(HttpStatus.OK)
       .json({ message: this.messageService.successMessage, data: response });

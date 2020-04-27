@@ -1,4 +1,5 @@
 import { SubjectService } from './../../subject/subject/subject.service';
+import { QueryModel } from './../../shared/model/query.model';
 import { ResultException } from './../../../config/result';
 import { LevelRepository } from './../level.repository';
 import { Injectable, HttpStatus } from '@nestjs/common';
@@ -13,9 +14,13 @@ export class LevelService {
     private subjectService: SubjectService,
   ) {}
 
-  public async getLevels() {
+  public async getLevels(query: QueryModel) {
     try {
-      return await this.levelRepository.find();
+      return await this.levelRepository.find({
+        take: query.pageSize,
+        skip: query.pageSize * (query.page - 1),
+        order: { createdAt: 'DESC' },
+      });
     } catch (error) {
       new ResultException(error, HttpStatus.BAD_REQUEST);
     }
