@@ -1,9 +1,8 @@
-export class GuardianModel {
-    id?: string;
-    firstname: string;
-    lastname: string;
-    gender: string;
-    relation: string;
+export class AcademicModel {
+    role: string;
+    avatar: string;
+    email: string;
+    telephone: string;
     occupation: string;
     address: string;
     telephone: string;

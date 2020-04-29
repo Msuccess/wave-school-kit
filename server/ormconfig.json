@@ -6,7 +6,7 @@
   "autoLoadEntities": true,
   "username": "postgres",
   "password": "postgress",
-  "database": "SchoolDB_dev",
+  "database": "Different_SQL",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }

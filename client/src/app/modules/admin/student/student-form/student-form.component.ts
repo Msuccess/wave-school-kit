@@ -1,3 +1,4 @@
+import { StudentModel } from './../models/student.model';
 import { LocalDataService } from './../../../shared/services/local-data.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -6,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { TeacherService } from '../../teachers/services/teacher.service';
 import { ClassService } from '../../class/services/class.service';
 import { AdminStudentService } from '../services/admin-student.service';
+import { GuardianModel } from '../models/guardian.model';
 
 @Component({
     selector: 'app-student-form',
@@ -27,28 +29,40 @@ export class StudentFormComponent implements OnInit {
     guardianInformationForm: FormGroup;
     academicInformationForm: FormGroup;
 
-    constructor(private _formBuilder: FormBuilder, private _localDataService: LocalDataService, private _teachersLists: TeacherService, private _classService: ClassService, private _studentService: AdminStudentService) {}
+    //Models
+    guardianModel = {} as GuardianModel;
+    studentModel = {} as StudentModel;
 
-    createAddStudentForm() {
-        // Horizontal Stepper form steps
+    constructor(
+        private _formBuilder: FormBuilder,
+        private _localDataService: LocalDataService,
+        private _teachersLists: TeacherService,
+        private _classService: ClassService,
+        private _studentService: AdminStudentService
+    ) {}
+
+    createAddStudentForm(): void {
         this.studentInformationForm = this._formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            gender: ['', Validators.required],
-            religion: ['', Validators.required],
-            birthdate: ['', Validators.required],
-            picture: [''],
-            special_needs: ['', Validators.required]
+            firstName: [this.studentModel.firstname, Validators.required],
+            lastName: [this.studentModel.lastname, Validators.required],
+            gender: [this.studentModel.gender, Validators.required],
+            religion: [this.studentModel.religion, Validators.required],
+            birthdate: [this.studentModel.birthdate, Validators.required],
+            previousSchool: [this.studentModel.previousSchool],
+            level: [this.studentModel.level, Validators.required],
+            term: [this.studentModel.term, Validators.required],
+            specialNeeds: [this.studentModel.specialNeeds, Validators.required]
         });
 
         this.guardianInformationForm = this._formBuilder.group({
-            existingParent: [''],
-            name: [''],
-            occupation: [''],
-            telephone: [],
-            relation: [''],
-            email: [],
-            address: []
+            existingParent: [this.guardianModel.id],
+            firstname: [this.guardianModel.firstname],
+            lastname: [this.guardianModel.lastname],
+            occupation: [this.guardianModel.occupation],
+            telephone: [this.guardianModel.telephone],
+            relation: [this.guardianModel.relation],
+            address: [this.guardianModel.address],
+            gender: [this.guardianModel.gender]
         });
 
         this.academicInformationForm = this._formBuilder.group({
@@ -95,14 +109,20 @@ export class StudentFormComponent implements OnInit {
     }
 
     finishHorizontalStepper(): void {
-        this._studentService.saveGuardianInfo(this.guardianInformationForm.value).subscribe(
-            (res) => {
-                console.log(res);
-                debugger;
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
+        if (this.guardianInformationForm.value.existingParent === null) {
+            // unset
+            this._studentService
+                .saveGuardianInfo(this.guardianInformationForm.value)
+                .subscribe(
+                    (res) => {
+                        console.log(res);
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+        } else {
+            // unset
+        }
     }
 }

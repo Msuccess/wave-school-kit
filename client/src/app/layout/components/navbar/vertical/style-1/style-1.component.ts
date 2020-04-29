@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { delay, filter, take, takeUntil } from 'rxjs/operators';
@@ -32,7 +38,13 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {Router} _router
      */
-    constructor(private _fuseConfigService: FuseConfigService, private _fuseNavigationService: FuseNavigationService, private _fuseSidebarService: FuseSidebarService, private _router: Router, private _authService: AuthService) {
+    constructor(
+        private _fuseConfigService: FuseConfigService,
+        private _fuseNavigationService: FuseNavigationService,
+        private _fuseSidebarService: FuseSidebarService,
+        private _router: Router,
+        private _authService: AuthService
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -51,9 +63,11 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
         this._fusePerfectScrollbar = theDirective;
 
         // Update the scrollbar on collapsable item toggle
-        this._fuseNavigationService.onItemCollapseToggled.pipe(delay(500), takeUntil(this._unsubscribeAll)).subscribe(() => {
-            this._fusePerfectScrollbar.update();
-        });
+        this._fuseNavigationService.onItemCollapseToggled
+            .pipe(delay(500), takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                this._fusePerfectScrollbar.update();
+            });
 
         // Scroll to the active item position
         this._router.events
@@ -63,7 +77,10 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
             )
             .subscribe(() => {
                 setTimeout(() => {
-                    this._fusePerfectScrollbar.scrollToElement('navbar .nav-link.active', -120);
+                    this._fusePerfectScrollbar.scrollToElement(
+                        'navbar .nav-link.active',
+                        -120
+                    );
                 });
             });
     }
@@ -78,7 +95,6 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._authService.runUsersDetails.subscribe((res: any) => {
             this.usersDetails = res;
-            debugger;
         });
 
         this._router.events
@@ -93,9 +109,11 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
             });
 
         // Subscribe to the config changes
-        this._fuseConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe((config) => {
-            this.fuseConfig = config;
-        });
+        this._fuseConfigService.config
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((config) => {
+                this.fuseConfig = config;
+            });
 
         // Get current navigation
         this._fuseNavigationService.onNavigationChanged

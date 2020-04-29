@@ -34,7 +34,7 @@ export class GuardianController {
     const response = await this.guardianService.getGuardians();
     return res
       .status(HttpStatus.OK)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Get('/:id')
@@ -43,7 +43,7 @@ export class GuardianController {
     const response = await this.guardianService.getGuardian(id);
     return res
       .status(HttpStatus.OK)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Post()
@@ -56,7 +56,7 @@ export class GuardianController {
     const response = await this.guardianService.addGuardian(Guardian);
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Put('/:id')
@@ -69,7 +69,7 @@ export class GuardianController {
     const response = await this.guardianService.updateGuardian(id, guardian);
     return res
       .status(HttpStatus.CREATED)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 
   @Delete('/:id')
@@ -78,6 +78,6 @@ export class GuardianController {
     const response = await this.guardianService.deleteGuardian(id);
     return res
       .status(HttpStatus.OK)
-      .json({ message: this.messageService.successMessage, date: response });
+      .json({ message: this.messageService.successMessage, data: response });
   }
 }

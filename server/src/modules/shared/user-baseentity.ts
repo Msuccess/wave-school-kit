@@ -19,7 +19,7 @@ export class UserBaseEntity extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: '50' })
   firstname: string;
 
-  @Column({ type: 'varchar', nullable: false, length: '50' })
+  @Column({ type: 'varchar', nullable: true, length: '50' })
   lastname: string;
 
   @CreateDateColumn()
