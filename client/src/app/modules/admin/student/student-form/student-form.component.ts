@@ -3,6 +3,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
+import { TeacherService } from '../../teachers/services/teacher.service';
+import { ClassService } from '../../class/services/class.service';
+import { AdminStudentService } from '../services/admin-student.service';
 
 @Component({
     selector: 'app-student-form',
@@ -12,81 +15,94 @@ import { fuseAnimations } from '@fuse/animations';
     animations: fuseAnimations
 })
 export class StudentFormComponent implements OnInit {
-    form: FormGroup;
-    gender = [];
-    religion: [];
+    genderList = [];
+    religionList = [];
+    teachersList = [];
+    classList = [];
+    termsList = [];
+    formData = [];
 
     // Horizontal Stepper
-    horizontalStepperStep1: FormGroup;
-    horizontalStepperStep2: FormGroup;
-    horizontalStepperStep3: FormGroup;
+    studentInformationForm: FormGroup;
+    guardianInformationForm: FormGroup;
+    academicInformationForm: FormGroup;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+    constructor(private _formBuilder: FormBuilder, private _localDataService: LocalDataService, private _teachersLists: TeacherService, private _classService: ClassService, private _studentService: AdminStudentService) {}
 
-    /**
-     * Constructor
-     *
-     * @param {FormBuilder} _formBuilder
-     */
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _localDataService: LocalDataService
-    ) {
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
+    createAddStudentForm() {
+        // Horizontal Stepper form steps
+        this.studentInformationForm = this._formBuilder.group({
+            firstName: ['', Validators.required],
+            lastName: ['', Validators.required],
+            gender: ['', Validators.required],
+            religion: ['', Validators.required],
+            birthdate: ['', Validators.required],
+            picture: [''],
+            special_needs: ['', Validators.required]
+        });
+
+        this.guardianInformationForm = this._formBuilder.group({
+            existingParent: [''],
+            name: [''],
+            occupation: [''],
+            telephone: [],
+            relation: [''],
+            email: [],
+            address: []
+        });
+
+        this.academicInformationForm = this._formBuilder.group({
+            class: ['', Validators.required],
+            term: ['', Validators.required],
+            previous_school: ['', Validators.required],
+            reason_for_leaving: ['', Validators.required],
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
+    loadAllServices() {
+        this._teachersLists.getTeachersList().subscribe(
+            (res: any) => {
+                this.teachersList = res;
+            },
+            (err) => {}
+        );
         this._localDataService.getGenders().subscribe((res: any) => {
-            this.gender = res;
+            this.genderList = res;
         });
 
         this._localDataService.getReligions().subscribe((res: any) => {
-            this.religion = res;
+            this.religionList = res;
         });
 
-        // Horizontal Stepper form steps
-        this.horizontalStepperStep1 = this._formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required]
+        this._localDataService.getReligions().subscribe((res: any) => {
+            this.religionList = res;
         });
 
-        this.horizontalStepperStep2 = this._formBuilder.group({
-            address: ['', Validators.required]
+        this._localDataService.getTerms().subscribe((res: any) => {
+            this.termsList = res;
         });
 
-        this.horizontalStepperStep3 = this._formBuilder.group({
-            city: ['', Validators.required],
-            state: ['', Validators.required],
-            postalCode: ['', [Validators.required, Validators.maxLength(5)]]
+        this._classService.getClasses().subscribe((res: any) => {
+            this.classList = res.data;
         });
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+    ngOnInit(): void {
+        this.loadAllServices();
+        this.createAddStudentForm();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Finish the horizontal stepper
-     */
     finishHorizontalStepper(): void {
-        alert('You have finished the horizontal stepper!');
+        this._studentService.saveGuardianInfo(this.guardianInformationForm.value).subscribe(
+            (res) => {
+                console.log(res);
+                debugger;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 }

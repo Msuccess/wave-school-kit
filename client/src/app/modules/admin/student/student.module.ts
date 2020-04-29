@@ -20,11 +20,9 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import {
-    MaterialFileInputModule,
-    NGX_MAT_FILE_INPUT_CONFIG,
-    FileInputConfig
-} from 'ngx-material-file-input';
+
+// ! Will be enabled after running yarn
+import { MaterialFileInputModule, NGX_MAT_FILE_INPUT_CONFIG, FileInputConfig } from 'ngx-material-file-input';
 
 const routes: Routes = [
     {
@@ -42,13 +40,7 @@ export const config: FileInputConfig = {
 };
 
 @NgModule({
-    declarations: [
-        StudentFormComponent,
-        StudentDetailsComponent,
-        StudentsSelectedTopBarComponent,
-        StudentSidebarFilterComponent,
-        StudentListComponent
-    ],
+    declarations: [StudentFormComponent, StudentDetailsComponent, StudentsSelectedTopBarComponent, StudentSidebarFilterComponent, StudentListComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

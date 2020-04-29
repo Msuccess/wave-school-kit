@@ -15,4 +15,8 @@ export class LocalDataService {
     getReligions(): Observable<any> {
         return this._httpClient.get('./assets/localData/religion_list.json');
     }
+
+    getTerms(): Observable<any> {
+        return this._httpClient.get('./assets/localData/terms_list.json');
+    }
 }

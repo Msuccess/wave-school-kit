@@ -23,13 +23,7 @@ export class AuthLoginComponent implements OnInit {
     hasFormErrors: Boolean = false;
     errorMessage: string;
 
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _fuseConfigService: FuseConfigService,
-        private _authService: AuthService,
-        private _notification: NotificationService,
-        private route: Router
-    ) {
+    constructor(private _formBuilder: FormBuilder, private _fuseConfigService: FuseConfigService, private _authService: AuthService, private _notification: NotificationService, private route: Router) {
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -62,6 +56,7 @@ export class AuthLoginComponent implements OnInit {
             (res) => {
                 debugger;
                 this._authService.setToken(res.data.token.token);
+                this._authService.usersDetails.next({ username: res.data.dbUser.username, userEmail: res.data.dbUser.email, userPicture: '' });
                 this.showProgressBar$.next(false);
                 this._notification.alert('Login Successful', 'success');
                 this.route.navigate(['/admin/dashboard']);
@@ -70,8 +65,7 @@ export class AuthLoginComponent implements OnInit {
                 this.showProgressBar$.next(false);
 
                 if (err.type === 'error') {
-                    this.errorMessage =
-                        applicationMessages.SHARED.internetConnection;
+                    this.errorMessage = applicationMessages.SHARED.internetConnection;
                 } else if (err.message.includes('password incorrect')) {
                     this.errorMessage = applicationMessages.AUTH.loginError;
                 }

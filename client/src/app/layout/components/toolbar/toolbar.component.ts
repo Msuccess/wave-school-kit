@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { navigation } from '../../../layout/navigation/navigation';
+import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
     selector: 'toolbar',
@@ -22,6 +23,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
+    usersDetails: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -33,11 +35,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {TranslateService} _translateService
      */
-    constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService
-    ) {
+    constructor(private _fuseConfigService: FuseConfigService, private _fuseSidebarService: FuseSidebarService, private _translateService: TranslateService, private _authService: AuthService) {
         // Set the defaults
         this.userStatusOptions = [
             {
@@ -94,15 +92,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this._authService.runUsersDetails.subscribe((res: any) => {
+            this.usersDetails = res;
+        });
+
         // Subscribe to the config changes
-        this._fuseConfigService.config
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((settings) => {
-                this.horizontalNavbar =
-                    settings.layout.navbar.position === 'top';
-                this.rightNavbar = settings.layout.navbar.position === 'right';
-                this.hiddenNavbar = settings.layout.navbar.hidden === true;
-            });
+        this._fuseConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe((settings) => {
+            this.horizontalNavbar = settings.layout.navbar.position === 'top';
+            this.rightNavbar = settings.layout.navbar.position === 'right';
+            this.hiddenNavbar = settings.layout.navbar.hidden === true;
+        });
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {
