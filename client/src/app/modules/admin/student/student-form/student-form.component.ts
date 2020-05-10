@@ -2,12 +2,14 @@ import { StudentModel } from './../models/student.model';
 import { LocalDataService } from './../../../shared/services/local-data.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { TeacherService } from '../../teachers/services/teacher.service';
 import { ClassService } from '../../class/services/class.service';
 import { AdminStudentService } from '../services/admin-student.service';
 import { GuardianModel } from '../models/guardian.model';
+import { AcademicModel } from '../models/academic.model';
+import { FileValidator } from 'ngx-material-file-input';
 
 @Component({
     selector: 'app-student-form',
@@ -24,6 +26,8 @@ export class StudentFormComponent implements OnInit {
     termsList = [];
     formData = [];
 
+    readonly maxSize = 104857600; // Maximum size of file should be 100mb
+
     // Horizontal Stepper
     studentInformationForm: FormGroup;
     guardianInformationForm: FormGroup;
@@ -32,14 +36,11 @@ export class StudentFormComponent implements OnInit {
     //Models
     guardianModel = {} as GuardianModel;
     studentModel = {} as StudentModel;
+    academicModel = {} as AcademicModel;
+    profileImage$ = new BehaviorSubject<any>('');
+    selectedPicture: File;
 
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _localDataService: LocalDataService,
-        private _teachersLists: TeacherService,
-        private _classService: ClassService,
-        private _studentService: AdminStudentService
-    ) {}
+    constructor(private _formBuilder: FormBuilder, private _localDataService: LocalDataService, private _teachersLists: TeacherService, private _classService: ClassService, private _studentService: AdminStudentService) {}
 
     createAddStudentForm(): void {
         this.studentInformationForm = this._formBuilder.group({
@@ -48,10 +49,10 @@ export class StudentFormComponent implements OnInit {
             gender: [this.studentModel.gender, Validators.required],
             religion: [this.studentModel.religion, Validators.required],
             birthdate: [this.studentModel.birthdate, Validators.required],
-            previousSchool: [this.studentModel.previousSchool],
+            previous_school: [this.studentModel.previousSchool],
             level: [this.studentModel.level, Validators.required],
             term: [this.studentModel.term, Validators.required],
-            specialNeeds: [this.studentModel.specialNeeds, Validators.required]
+            special_needs: [this.studentModel.specialNeeds]
         });
 
         this.guardianInformationForm = this._formBuilder.group({
@@ -66,12 +67,12 @@ export class StudentFormComponent implements OnInit {
         });
 
         this.academicInformationForm = this._formBuilder.group({
-            class: ['', Validators.required],
-            term: ['', Validators.required],
-            previous_school: ['', Validators.required],
-            reason_for_leaving: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', Validators.required]
+            role: ['student', Validators.required],
+            avatar: [this.academicModel.avatar, [Validators.required, FileValidator.maxContentSize(this.maxSize)]],
+            email: [this.academicModel.email, Validators.required],
+            phoneNumber: [this.academicModel.phoneNumber, Validators.required],
+            username: [this.academicModel.username, Validators.required],
+            password: [this.academicModel.password, Validators.required]
         });
     }
 
@@ -108,21 +109,61 @@ export class StudentFormComponent implements OnInit {
         this.createAddStudentForm();
     }
 
+    onChange(event: any) {
+        this.selectedPicture = <File>event.target.files[0];
+        // if (event.target.files && event.target.files[0]) {
+        //     let reader = new FileReader();
+        //     const file = event.target.files[0];
+        //     reader.readAsDataURL(file);
+
+        //     reader.onload = (e: any) => {
+        //         this.profileImage$.next(reader.result.toString());
+        //     };
+
+        //     const formData = new FormData();
+        //     formData.append('file', file);
+
+        //     this.uploadProfileImage(formData);
+        // }
+
+        // if (event.target.files.length > 0) {
+        //     const file = event.target.files[0];
+        //     this.academicInformationForm.get('avatar').setValue(file);
+        // }
+
+        // const formData = new FormData();
+        // formData.append('file', this.academicInformationForm.get('avatar').value);
+
+        this.uploadProfileImage();
+    }
+
+    uploadProfileImage() {
+        const fb = new FormData();
+        fb.append('image', this.selectedPicture, this.selectedPicture.name);
+
+        this._studentService.saveStudentImage(fb).subscribe(
+            (res) => {
+                console.log(res);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
     finishHorizontalStepper(): void {
         if (this.guardianInformationForm.value.existingParent === null) {
-            // unset
-            this._studentService
-                .saveGuardianInfo(this.guardianInformationForm.value)
-                .subscribe(
-                    (res) => {
-                        console.log(res);
-                    },
-                    (err) => {
-                        console.log(err);
-                    }
-                );
+            // ! save guardian
+            // this._studentService.saveGuardianInfoAndImage(this.guardianInformationForm.value, this.academicInformationForm.value.avatar.files[0]).subscribe(
+            //     (res) => {
+            //         console.log(res);
+            //     },
+            //     (err) => {
+            //         console.log(err);
+            //     }
+            // );
         } else {
-            // unset
+            // ! Do not save Guardian
         }
     }
 }

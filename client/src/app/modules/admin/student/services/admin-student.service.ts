@@ -2,7 +2,7 @@ import { StudentModel } from './../models/student.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GuardianModel } from '../models/guardian.model';
-import { throwError } from 'rxjs';
+import { throwError, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { AcademicModel } from '../models/academic.model';
@@ -12,6 +12,7 @@ import { AcademicModel } from '../models/academic.model';
 })
 export class AdminStudentService {
     guardianEndpoint = environment.apiUrl + 'guardian/';
+    imageUploadEndpoint = environment.apiUrl + 'fileupload/';
 
     constructor(private _httpClient: HttpClient) {}
 
@@ -24,11 +25,23 @@ export class AdminStudentService {
         );
     }
 
-    addStudent(
-        studentInfo: StudentModel,
-        guardianInfo: GuardianModel,
-        academicInfo: AcademicModel
-    ) {}
+    saveStudentImage(studentProfile) {
+        return this._httpClient.post(this.imageUploadEndpoint, studentProfile).pipe(
+            catchError((err) => {
+                this.handleError([]);
+                return throwError(err);
+            })
+        );
+    }
+
+    saveGuardianInfoAndImage(guardianInfo: GuardianModel, studentImage: File) {
+        return forkJoin([this.saveGuardianInfo(guardianInfo), this.saveStudentImage(studentImage)]).pipe(
+            catchError((err) => {
+                this.handleError([]);
+                return throwError(err);
+            })
+        );
+    }
 
     // Error
     private handleError(result?: any) {
@@ -37,10 +50,7 @@ export class AdminStudentService {
             console.error('An error occurred:', result.error.message);
             error = result.error;
         } else {
-            console.error(
-                `Backend returned code ${result.status}, ` +
-                    `body was: ${result.error}`
-            );
+            console.error(`Backend returned code ${result.status}, ` + `body was: ${result.error}`);
             error = result.error;
         }
         return throwError(error);

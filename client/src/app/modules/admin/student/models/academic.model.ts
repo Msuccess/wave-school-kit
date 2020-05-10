@@ -1,20 +1,18 @@
 export class AcademicModel {
     role: string;
-    avatar: string;
+    avatar: File;
     email: string;
-    telephone: string;
-    occupation: string;
-    address: string;
-    telephone: string;
+    phoneNumber: string;
+    username: string;
+    password: string;
 
     constructor(data?: any) {
         data = data || {};
-        this.firstname = data.firstname || '';
-        this.lastname = data.lastname || '';
-        this.gender = data.gender || '';
-        this.relation = data.relation || '';
-        this.occupation = data.occupation || '';
-        this.address = data.address || '';
-        this.telephone = data.telephone || '';
+        this.role = data.role || 'student';
+        this.avatar = data.avatar || '';
+        this.email = data.email || '';
+        this.phoneNumber = data.phoneNumber || '';
+        this.username = data.username || '';
+        this.password = data.password || '';
     }
 }
