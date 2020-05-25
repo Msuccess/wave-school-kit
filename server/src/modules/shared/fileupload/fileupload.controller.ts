@@ -29,7 +29,7 @@ export class FileuploadController {
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
-      limits: { fileSize: 1024 * 1024 },
+      limits: { fileSize: 1024 },
     }),
   )
   public async uploadedFile(@UploadedFile() file, @Res() res: Response) {

@@ -9,7 +9,6 @@ import { CreateStudentDto } from './../dto/create-student.dto';
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentRepository } from '../student.repository';
-import { CreateDateColumn } from 'typeorm';
 import { QueryModel } from './../../shared/model/query.model';
 
 @Injectable()
