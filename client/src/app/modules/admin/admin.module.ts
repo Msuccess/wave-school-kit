@@ -29,6 +29,8 @@ import { TeachersModule } from './teachers/teachers.module';
 
 // ! will be enabled after yarn has been runned.....
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { EventsModule } from './events/events.module';
+import { StudentModule } from './student/student.module';
 
 const routes: Routes = [
     {
@@ -46,6 +48,14 @@ const routes: Routes = [
     {
         path: 'student',
         loadChildren: () => import('./student/student.module').then((m) => m.StudentModule)
+    },
+    {
+        path: 'teacher',
+        loadChildren: () => import('./teachers/teachers.module').then((m) => m.TeachersModule)
+    },
+    {
+        path: 'events',
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsModule)
     }
 ];
 
@@ -76,11 +86,13 @@ const routes: Routes = [
         MaterialFileInputModule,
 
         // * app modules
+        TeachersModule,
+        EventsModule,
+        StudentModule,
 
         // * theme specific modules
         FuseSharedModule,
-        FuseWidgetModule,
-        TeachersModule
+        FuseWidgetModule
     ],
     providers: [],
     entryComponents: [SubjectFormComponent, ClassFormComponent],

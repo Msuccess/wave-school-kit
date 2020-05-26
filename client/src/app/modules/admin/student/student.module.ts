@@ -23,6 +23,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 
 // ! Will be enabled after running yarn
 import { MaterialFileInputModule, NGX_MAT_FILE_INPUT_CONFIG, FileInputConfig } from 'ngx-material-file-input';
+import { StudentEditDetailsComponent } from './student-edit-details/student-edit-details.component';
 
 const routes: Routes = [
     {
@@ -32,6 +33,10 @@ const routes: Routes = [
     {
         path: 'add',
         component: StudentFormComponent
+    },
+    {
+        path: 'edit/:id',
+        component: StudentEditDetailsComponent
     }
 ];
 
@@ -40,7 +45,7 @@ export const config: FileInputConfig = {
 };
 
 @NgModule({
-    declarations: [StudentFormComponent, StudentDetailsComponent, StudentsSelectedTopBarComponent, StudentSidebarFilterComponent, StudentListComponent],
+    declarations: [StudentFormComponent, StudentDetailsComponent, StudentsSelectedTopBarComponent, StudentSidebarFilterComponent, StudentListComponent, StudentEditDetailsComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -60,7 +65,6 @@ export const config: FileInputConfig = {
 
         // * theme specific modules
         FuseSharedModule,
-        FuseConfirmDialogModule,
         FuseSidebarModule
     ],
 

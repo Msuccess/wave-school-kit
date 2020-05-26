@@ -1,34 +1,23 @@
-import { StudentModel } from './../models/student.model';
-import { LocalDataService } from './../../../shared/services/local-data.service';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { fuseAnimations } from '@fuse/animations';
+import { GuardianModel } from '../models/guardian.model';
+import { StudentModel } from '../models/student.model';
+import { AcademicModel } from '../models/academic.model';
+import { BehaviorSubject } from 'rxjs';
+import { LocalDataService } from 'app/modules/shared/services/local-data.service';
 import { TeacherService } from '../../teachers/services/teacher.service';
 import { ClassService } from '../../class/services/class.service';
 import { AdminStudentService } from '../services/admin-student.service';
-import { GuardianModel } from '../models/guardian.model';
-import { AcademicModel } from '../models/academic.model';
-import { FileValidator } from 'ngx-material-file-input';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { NotificationService } from 'app/modules/shared/services/notification.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { applicationMessages } from 'app/core/constants/applicationMessages';
-import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-student-form',
-    templateUrl: './student-form.component.html',
-    styleUrls: ['./student-form.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
-    providers: [
-        {
-            provide: STEPPER_GLOBAL_OPTIONS,
-            useValue: { showError: true }
-        }
-    ]
+    selector: 'app-student-edit-details',
+    templateUrl: './student-edit-details.component.html',
+    styleUrls: ['./student-edit-details.component.scss']
 })
-export class StudentFormComponent implements OnInit {
+export class StudentEditDetailsComponent implements OnInit {
     genderList = [];
     religionList = [];
     teachersList = [];
@@ -48,7 +37,6 @@ export class StudentFormComponent implements OnInit {
     studentInformationForm: FormGroup;
     guardianInformationForm: FormGroup;
     academicInformationForm: FormGroup;
-    generalStudentForm: FormGroup;
 
     //Models
     guardianModel = {} as GuardianModel;
@@ -56,8 +44,10 @@ export class StudentFormComponent implements OnInit {
     academicModel = {} as AcademicModel;
     profileImage$ = new BehaviorSubject<any>('');
     selectedPicture: File;
+    selectedId: any;
+    currentGuardianId: any;
 
-    constructor(private _formBuilder: FormBuilder, private _localDataService: LocalDataService, private _teachersLists: TeacherService, private _classService: ClassService, private _studentService: AdminStudentService, private _notification: NotificationService, private _router: Router) {}
+    constructor(private _formBuilder: FormBuilder, private _localDataService: LocalDataService, private _teachersLists: TeacherService, private _classService: ClassService, private _studentService: AdminStudentService, private _notification: NotificationService, private _router: Router, private activatedRoute: ActivatedRoute) {}
 
     createAddStudentForm(): void {
         this.studentInformationForm = this._formBuilder.group({
@@ -70,31 +60,18 @@ export class StudentFormComponent implements OnInit {
             levelId: [this.studentModel.levelId, Validators.required],
             term: [this.studentModel.term, Validators.required],
             special_needs: [this.studentModel.special_needs, Validators.required],
-            guardianId: [this.guardianModel.id],
-            role: [],
-            email: [],
-            phoneNumber: [],
-            username: [],
-            password: []
+            guardianId: [this.guardianModel.id]
         });
 
         this.guardianInformationForm = this._formBuilder.group({
             guardianExists: [],
             firstname: [this.guardianModel.firstname],
             lastname: [this.guardianModel.lastname],
-            occupation: [this.guardianModel.occupation],
+            // occupation: [this.guardianModel.occupation],
             telephone: [this.guardianModel.telephone, Validators.pattern('^([()\\- x+]*\\d[()\\- x+]*){4,16}$')],
             relation: [this.guardianModel.relation],
             address: [this.guardianModel.address],
             gender: [this.guardianModel.gender]
-        });
-
-        this.academicInformationForm = this._formBuilder.group({
-            role: ['student', Validators.required],
-            email: [this.academicModel.email, Validators.compose([Validators.required, Validators.email])],
-            phoneNumber: [this.academicModel.phoneNumber, Validators.compose([Validators.required, Validators.pattern('^([()\\- x+]*\\d[()\\- x+]*){4,16}$')])],
-            username: [this.academicModel.username, Validators.required],
-            password: [this.academicModel.password, Validators.compose([Validators.required, Validators.minLength(8)])]
         });
     }
 
@@ -172,50 +149,24 @@ export class StudentFormComponent implements OnInit {
     }
 
     finishHorizontalStepper(): void {
-        // this.generalStudentForm = new FormGroup({this.studentInformationForm,this.academicInformationForm });
+        // ! Do not save Guardian
+        this.studentInformationForm.patchValue({ guardianId: this.currentGuardianId });
 
-        if (this.guardianInformationForm.value.guardianExists === null) {
-            // ! save guardian
-            this._studentService.saveGuardianInfo(this.guardianInformationForm.value).subscribe(
-                (res: any) => {
-                    console.log(res);
-                    const guardian_id = res.data.id;
-                    this.studentInformationForm.patchValue({ guardianId: guardian_id });
-
-                    this._studentService.addStudent(this.studentInformationForm.value).subscribe(
-                        (res) => {
-                            console.log('Success', res);
-                        },
-                        (err) => {
-                            console.log('Error', err);
-                        }
-                    );
-                },
-                (err) => {
-                    console.log('error', err);
-                }
-            );
-        } else {
-            // ! Do not save Guardian
-            const guardian_id = this.guardianInformationForm.value.guardianExists;
-            const role = this.academicInformationForm.value.role;
-            const email = this.academicInformationForm.value.email;
-            const username = this.academicInformationForm.value.username;
-            const password = this.academicInformationForm.value.password;
-            const phoneNumber = this.academicInformationForm.value.phoneNumber;
-
-            this.studentInformationForm.patchValue({ guardianId: guardian_id, role: role, email: email, phoneNumber: phoneNumber, username: username, password: password });
-
-            this._studentService.addStudent(this.studentInformationForm.value).subscribe(
-                (res) => {
-                    this._notification.alert(applicationMessages.STUDENT.student_saved, 'success');
-                    this._router.navigate(['/admin/student']);
-                },
-                (err) => {
-                    console.log('Error', err);
-                }
-            );
-        }
+        // * Update Guardian Information
+        this._studentService.updateGuardianDetails(this.guardianInformationForm.value, this.currentGuardianId).subscribe(
+            (res) => {
+                this._studentService.updateStudentDetails(this.studentInformationForm.value, this.selectedId).subscribe(
+                    (res) => {
+                        this._notification.alert(applicationMessages.STUDENT.student_updated, 'success');
+                        this._router.navigate(['/admin/student']);
+                    },
+                    (err) => {
+                        console.log('Error', err);
+                    }
+                );
+            },
+            (err) => {}
+        );
     }
 
     onExistingParentSelect() {
@@ -258,9 +209,25 @@ export class StudentFormComponent implements OnInit {
         });
     }
 
+    getStudentInformation(studentId: string) {
+        this._studentService.getStudentById(studentId).subscribe(
+            (res: any) => {
+                this.studentInformationForm.patchValue(res.data);
+                this.studentInformationForm.patchValue({ levelId: res.data.level.id });
+                this.guardianInformationForm.patchValue(res.data.guardian);
+                this.currentGuardianId = res.data.guardian.id;
+            },
+            (err) => {}
+        );
+    }
+
     ngOnInit(): void {
+        this.activatedRoute.params.subscribe((res: any) => {
+            this.selectedId = res['id'];
+        });
         this.loadAllServices();
         this.createAddStudentForm();
         this.onExistingParentSelect();
+        this.getStudentInformation(this.selectedId);
     }
 }

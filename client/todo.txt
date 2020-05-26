@@ -1,0 +1,8 @@
+Fees
+ - Add Fees
+ - Assign Fees
+ - Manage Fees(Update and Delete)
+ - Implement the UI, backend will be implemented soon
+
+
+Create CRUD for Teacher

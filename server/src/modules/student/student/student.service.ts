@@ -52,11 +52,16 @@ export class StudentService {
   }
 
   public async addStudent(newStudent: CreateStudentDto) {
+    // generate new ID
+    const generatedStudentId = Math.floor(
+      Math.random() * (999999999 - 100000000) + 100000000,
+    ).toString();
+
     // TODO: Add Index Number Algor.
     const newUser = new CreateUserDto();
     newUser.password = newStudent.password;
     newUser.email = newStudent.email;
-    newUser.phoneNumber = newStudent.phonenumber;
+    newUser.phoneNumber = newStudent.phoneNumber;
     newUser.username = newStudent.username;
     newUser.role = UserRole.STUDENT;
     newUser.avatar = newStudent.avatar;
@@ -70,6 +75,8 @@ export class StudentService {
       );
 
       newStudent.level = await this.levelService.getLevel(newStudent.levelId);
+
+      newStudent.studentId = generatedStudentId;
 
       return await this.studentRepository.saveStudentEntity(newStudent);
     } catch (error) {

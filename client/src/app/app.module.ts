@@ -11,18 +11,13 @@ import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSharedModule } from '@fuse/shared.module';
-import {
-    FuseProgressBarModule,
-    FuseSidebarModule,
-    FuseThemeOptionsModule
-} from '@fuse/components';
+import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
 
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AdminModule } from './modules/admin/admin.module';
-import { StudentModule } from './modules/admin/student/student.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { authInterceptorProviders } from './core/auth/auth.interceptor';
 import { AuthGuard } from './core/auth/auth.guard';
@@ -32,15 +27,11 @@ import { SampleModule } from './core/main/sample/sample.module';
 const appRoutes: Routes = [
     {
         path: '',
-        loadChildren: () =>
-            import('./modules/authentication/authentication.module').then(
-                (m) => m.AuthenticationModule
-            )
+        loadChildren: () => import('./modules/authentication/authentication.module').then((m) => m.AuthenticationModule)
     },
     {
         path: 'admin',
-        loadChildren: () =>
-            import('./modules/admin/admin.module').then((m) => m.AdminModule),
+        loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AuthGuard]
     },
     {
@@ -78,7 +69,6 @@ const appRoutes: Routes = [
         SampleModule,
         AuthenticationModule,
         AdminModule,
-        StudentModule,
         SharedModule
     ],
     bootstrap: [AppComponent],

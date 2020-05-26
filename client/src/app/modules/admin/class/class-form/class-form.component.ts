@@ -1,6 +1,6 @@
 import { SubjectService } from './../../subject/service/subject.service';
 
-import { TeacherService } from './../../teachers/services/teacher.service';
+import { TeacherService } from '../../teachers/services/teacher.service';
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { MatTableDataSource, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';

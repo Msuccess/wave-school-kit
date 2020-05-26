@@ -14,7 +14,7 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.DASHBOARD',
         type: 'item',
         icon: 'dashboard',
-        url: 'admin/dashboard'
+        url: '/admin/dashboard'
     },
     {
         id: 'class',
@@ -22,7 +22,7 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.CLASS',
         type: 'item',
         icon: 'class',
-        url: 'admin/class'
+        url: '/admin/class'
     },
     {
         id: 'subject',
@@ -30,7 +30,7 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.SUBJECT',
         type: 'item',
         icon: 'subject',
-        url: 'admin/subject'
+        url: '/admin/subject'
     },
     {
         id: 'student',
@@ -38,6 +38,22 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.STUDENT',
         type: 'item',
         icon: 'group',
-        url: 'admin/student'
+        url: '/admin/student'
+    },
+    {
+        id: 'teacher',
+        title: 'Teacher',
+        translate: 'NAV.TEACHER',
+        type: 'item',
+        icon: 'work',
+        url: '/admin/teacher'
+    },
+    {
+        id: 'events',
+        title: 'Events',
+        translate: 'NAV.EVENTS',
+        type: 'item',
+        icon: 'today',
+        url: '/admin/events'
     }
 ];

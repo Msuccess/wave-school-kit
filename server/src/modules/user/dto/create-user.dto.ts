@@ -10,7 +10,7 @@ export class CreateUserDto {
   username: string;
 
   @IsEmail()
-  @IsNotEmpty({ message: 'phonenumber cannot be null' })
+  @IsNotEmpty({ message: 'email cannot be null' })
   public email: string;
 
   @Length(8)
