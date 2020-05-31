@@ -1,13 +1,9 @@
 import { SubjectService } from './../../subject/service/subject.service';
 
-import { TeacherService } from './../../teacher/services/teacher.service';
+import { TeacherService } from '../../teachers/services/teacher.service';
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import {
-    MatTableDataSource,
-    MatDialogRef,
-    MAT_DIALOG_DATA
-} from '@angular/material';
+import { MatTableDataSource, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { ClassModel } from '../models/class.model';
 import { ClassService } from '../services/class.service';
@@ -36,15 +32,7 @@ export class ClassFormComponent implements OnInit {
     teachersList: any;
     subjectList: any;
 
-    constructor(
-        public matDialogRef: MatDialogRef<ClassFormComponent>,
-        @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder,
-        private _classService: ClassService,
-        private _notification: NotificationService,
-        private _teacherService: TeacherService,
-        private _subjectService: SubjectService
-    ) {
+    constructor(public matDialogRef: MatDialogRef<ClassFormComponent>, @Inject(MAT_DIALOG_DATA) private _data: any, private _formBuilder: FormBuilder, private _classService: ClassService, private _notification: NotificationService, private _teacherService: TeacherService, private _subjectService: SubjectService) {
         // Set the defaults
         this.action = _data.action;
         this.form_data = _data.subject;
@@ -86,20 +74,14 @@ export class ClassFormComponent implements OnInit {
         this.showProgressBar$.next(true);
         this._classService.addClass(this.classForm.value).subscribe(
             (res) => {
-                this._notification.alert(
-                    applicationMessages.CLASS.class_saved,
-                    'success'
-                );
+                this._notification.alert(applicationMessages.CLASS.class_saved, 'success');
                 this.matDialogRef.close();
                 this.showProgressBar$.next(false);
                 this._classService.onClassesChanged.next(true);
             },
             (err) => {
                 if (err.message.includes('Http failure response')) {
-                    this._notification.alert(
-                        applicationMessages.SHARED.internetConnection,
-                        'error'
-                    );
+                    this._notification.alert(applicationMessages.SHARED.internetConnection, 'error');
                 }
                 this.showProgressBar$.next(false);
             }
@@ -107,16 +89,11 @@ export class ClassFormComponent implements OnInit {
     }
 
     updateClass(formDetails) {
-        this._classService
-            .updateClass(this.getSelectedClassesId, formDetails.value)
-            .subscribe((res) => {
-                this._notification.alert(
-                    applicationMessages.CLASS.class_updated,
-                    'success'
-                );
-                this.matDialogRef.close();
-                this._classService.onClassesChanged.next(true);
-            });
+        this._classService.updateClass(this.getSelectedClassesId, formDetails.value).subscribe((res) => {
+            this._notification.alert(applicationMessages.CLASS.class_updated, 'success');
+            this.matDialogRef.close();
+            this._classService.onClassesChanged.next(true);
+        });
     }
 
     ngOnInit() {

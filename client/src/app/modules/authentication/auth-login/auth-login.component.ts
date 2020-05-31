@@ -60,8 +60,12 @@ export class AuthLoginComponent implements OnInit {
         this.showProgressBar$.next(true);
         this._authService.signIn(this.loginForm.value).subscribe(
             (res) => {
-                debugger;
                 this._authService.setToken(res.data.token.token);
+                this._authService.usersDetails.next({
+                    username: res.data.dbUser.username,
+                    userEmail: res.data.dbUser.email,
+                    userPicture: ''
+                });
                 this.showProgressBar$.next(false);
                 this._notification.alert('Login Successful', 'success');
                 this.route.navigate(['/admin/dashboard']);

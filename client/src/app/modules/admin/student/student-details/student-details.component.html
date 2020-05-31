@@ -1,23 +1,9 @@
-<div
-    id="contacts"
-    class="page-layout simple left-sidebar inner-sidebar inner-scroll"
->
+<div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
     <!-- HEADER -->
-    <div
-        class="header accent p-16 p-sm-24"
-        fxLayout="column"
-        fxLayoutAlign="start"
-        fxLayout.gt-xs="row"
-        fxLayoutAlign.gt-xs="space-between center"
-    >
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
         <!-- APP TITLE -->
         <div fxLayout="row" fxLayoutAlign="start center">
-            <button
-                mat-icon-button
-                class="sidebar-toggle mr-12"
-                fxHide.gt-sm
-                (click)="toggleSidebar('contacts-main-sidebar')"
-            >
+            <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm>
                 <mat-icon>menu</mat-icon>
             </button>
 
@@ -44,24 +30,11 @@
         <!-- / APP TITLE -->
 
         <!-- SEARCH -->
-        <div
-            class="ml-sm-32"
-            fxLayout="row"
-            fxLayoutAlign="center center"
-            fxFlex
-        >
+        <div class="ml-sm-32" fxLayout="row" fxLayoutAlign="center center" fxFlex>
             <div class="search-wrapper mt-16 mt-sm-0">
-                <div
-                    class="search"
-                    fxFlex
-                    fxLayout="row"
-                    fxLayoutAlign="start center"
-                >
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input
-                        [formControl]="searchInput"
-                        placeholder="Search for a student"
-                    />
+                    <input placeholder="Search for a student" />
                 </div>
             </div>
         </div>
@@ -70,27 +43,20 @@
     <!-- / HEADER -->
 
     <!-- SELECTED BAR -->
-    <app-students-selected-top-bar
+    <!-- <app-students-selected-top-bar
         class="accent-600"
         *ngIf="hasSelectedContacts"
         [@slideInTop]
-    ></app-students-selected-top-bar>
+    ></app-students-selected-top-bar> -->
     <!-- / SELECTED BAR -->
 
     <!-- CONTENT -->
     <div class="content">
         <!-- SIDEBAR -->
-        <fuse-sidebar
-            class="sidebar"
-            name="app-student-sidebar-filter"
-            position="left"
-            lockedOpen="gt-sm"
-        >
+        <fuse-sidebar class="sidebar" name="app-student-sidebar-filter" position="left" lockedOpen="gt-sm">
             <!-- SIDEBAR CONTENT -->
             <div class="content" fusePerfectScrollbar>
-                <app-student-sidebar-filter
-                    [@animate]="{ value: '*' }"
-                ></app-student-sidebar-filter>
+                <app-student-sidebar-filter [@animate]="{ value: '*' }"></app-student-sidebar-filter>
             </div>
             <!-- / SIDEBAR CONTENT -->
         </fuse-sidebar>
@@ -110,15 +76,7 @@
 </div>
 
 <!-- ADD CONTACT BUTTON -->
-<button
-    mat-fab
-    class="accent"
-    id="add-contact-button"
-    [routerLink]="['add']"
-    routerLinkActive="router-link-active"
-    aria-label="Add Student"
-    [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }"
->
+<button mat-fab class="accent" id="add-contact-button" [routerLink]="['add']" routerLinkActive="router-link-active" aria-label="Add Student" [@animate]="{ value: '*', params: { delay: '300ms', scale: '.2' } }">
     <mat-icon>person_add</mat-icon>
 </button>
 <!-- / ADD CONTACT BUTTON -->

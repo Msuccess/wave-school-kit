@@ -10,5 +10,6 @@
             "server": "localhost",
             "username": "postgres"
         }
-    ]
+    ],
+    "prettier.printWidth": 8000
 }

@@ -5,7 +5,9 @@ export const locale = {
             DASHBOARD: 'Dashboard',
             CLASS: 'Class',
             SUBJECT: 'Subject',
-            STUDENT: 'Student'
+            STUDENT: 'Student',
+            TEACHER: 'Teacher',
+            EVENTS: 'Events'
         }
     }
 };

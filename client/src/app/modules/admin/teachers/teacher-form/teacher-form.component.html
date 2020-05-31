@@ -1,0 +1,126 @@
+<div class="dialog-content-wrapper">
+    <ng-container *ngIf="showProgressBar$ | async">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{ dialogTitle }}</span>
+            <button
+                mat-icon-button
+                (click)="matDialogRef.close()"
+                aria-label="Close dialog"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+      
+        <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+        name="teacherForm" [formGroup]="teacherForm">
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field formGroupName="user" appearance="outline" fxFlex="100">
+                <mat-label>Choose a Class</mat-label>
+                <mat-select formControlName="levelId" required>
+                    <mat-option *ngFor="let class of classList" value="{{ class.id }}">
+                        {{ class.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="secondary-text">school</mat-icon>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                <mat-label>First name</mat-label>
+                <input matInput formControlName="firstname" required>
+                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                <mat-error>First Name is required!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex="50" class="pl-4">
+                <mat-label>Last name</mat-label>
+                <input matInput formControlName="lastname" required>
+                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                <mat-error>Last Name is required!</mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field formGroupName="user" appearance="outline" fxFlex="50" class="pr-4">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" value="{{teacherModel.user.username}}" required>
+                <mat-icon matSuffix class="secondary-text">perm_identity</mat-icon>
+                <mat-error>Username is required!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field formGroupName="user" appearance="outline" fxFlex="100">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" value="{{teacherModel.user.email}}" type="email" required>
+                <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                <mat-error>Email is required!</mat-error>
+            </mat-form-field>
+
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+            <mat-form-field formGroupName="user" appearance="outline" fxFlex="33">
+                <mat-label>Telephone</mat-label>
+                <input matInput formControlName="phonenumber" value="{{teacherModel.user.phonenumber}}" />
+                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                <mat-error>Phone is required!</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                <mat-label>Gender</mat-label>
+                <mat-select class="simplified font-size-16" required formControlName="gender">
+                    <mat-option *ngFor="let gender of genderList" [value]="gender.id">
+                        {{ gender.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline" fxFlex="33">
+                <mat-label>Religion</mat-label>
+                <mat-select class="simplified font-size-16" required formControlName="religion">
+                    <mat-option *ngFor="let religion of religionList" [value]="religion.name">
+                        {{ religion.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Religion is required!</mat-error>
+            </mat-form-field>
+
+        </div>
+
+    </form>
+    </div>
+
+    <div
+        mat-dialog-actions
+        class="m-0 p-16"
+        fxLayout="row"
+        fxLayoutAlign="end center"
+    >
+
+        <button
+            mat-button
+            color="accent"
+            class="save-button"
+            (click)="updateTeacher(teacherForm)"
+            aria-label="SAVE"
+        >
+            SAVE CHANGES
+        </button>
+    </div>
+</div>

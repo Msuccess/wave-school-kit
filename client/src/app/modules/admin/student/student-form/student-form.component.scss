@@ -23,3 +23,80 @@
         }
     }
 }
+#about {
+    width: 100% !important;
+    .about-content {
+        background-color: #f2f2f2 !important;
+        max-width: unset !important;
+        .general {
+            .location {
+                mat-icon {
+                    line-height: 13px !important;
+                }
+            }
+        }
+    }
+
+    .about-sidebar {
+        padding-left: 32px;
+
+        .friends {
+            .content {
+                .friend {
+                    padding: 4px;
+
+                    img {
+                        border-radius: 4px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Profile boxes
+.profile-box {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+
+    header {
+        padding: 16px;
+
+        .title {
+            font-size: 17px;
+        }
+
+        .more {
+            cursor: pointer;
+        }
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    footer {
+        padding: 8px;
+        border-top: 1px solid;
+    }
+
+    &.info-box {
+        .info-line {
+            margin-bottom: 24px;
+
+            .title {
+                font-size: 15px;
+                font-weight: 600;
+                padding-bottom: 4px;
+            }
+
+            .info {
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

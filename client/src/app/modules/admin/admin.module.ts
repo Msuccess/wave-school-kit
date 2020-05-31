@@ -12,7 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ClassComponent } from './class/class.component';
 import { ProgrammeComponent } from './programme/programme.component';
-import { TeacherComponent } from './teacher/teacher.component';
 import { SubjectComponent } from './subject/subject.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
@@ -26,7 +25,12 @@ import { SubjectFormComponent } from './subject/subject-form/subject-form.compon
 import { MatProgressBarModule, MatChipsModule } from '@angular/material';
 import { ClassListComponent } from './class/class-list/class-list.component';
 import { ClassFormComponent } from './class/class-form/class-form.component';
+import { TeachersModule } from './teachers/teachers.module';
+
+// ! will be enabled after yarn has been runned.....
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { EventsModule } from './events/events.module';
+import { StudentModule } from './student/student.module';
 
 const routes: Routes = [
     {
@@ -43,24 +47,20 @@ const routes: Routes = [
     },
     {
         path: 'student',
-        loadChildren: () =>
-            import('./student/student.module').then((m) => m.StudentModule)
+        loadChildren: () => import('./student/student.module').then((m) => m.StudentModule)
+    },
+    {
+        path: 'teacher',
+        loadChildren: () => import('./teachers/teachers.module').then((m) => m.TeachersModule)
+    },
+    {
+        path: 'events',
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsModule)
     }
 ];
 
 @NgModule({
-    declarations: [
-        DashboardComponent,
-        ClassComponent,
-        ProgrammeComponent,
-        TeacherComponent,
-        SubjectComponent,
-        SubjectListComponent,
-        SelectedSubjectSidebarComponent,
-        SubjectFormComponent,
-        ClassListComponent,
-        ClassFormComponent
-    ],
+    declarations: [DashboardComponent, ClassComponent, ProgrammeComponent, SubjectComponent, SubjectListComponent, SelectedSubjectSidebarComponent, SubjectFormComponent, ClassListComponent, ClassFormComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -82,9 +82,13 @@ const routes: Routes = [
         MatProgressBarModule,
         MatChipsModule,
 
+        // ! will be enabled after yarn has been runned.....
         MaterialFileInputModule,
 
         // * app modules
+        TeachersModule,
+        EventsModule,
+        StudentModule,
 
         // * theme specific modules
         FuseSharedModule,

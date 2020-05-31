@@ -67,8 +67,7 @@ $typography: mat-typography-config(
     $title: mat-typography-level(20px, 32px, 600),
     $body-2: mat-typography-level(14px, 24px, 600),
     $button: mat-typography-level(14px, 14px, 600),
-    $input: mat-typography-level(16px, 1.125, 400)
-        // line-height must be unitless !!!
+    $input: mat-typography-level(16px, 1.125, 400) // line-height must be unitless !!!
 );
 
 // Setup the typography
@@ -86,6 +85,7 @@ $typography: mat-typography-config(
 @import './modules/authentication/auth-register/auth-register-theme';
 @import './modules/admin/subject/subject-theme';
 @import './modules/admin/class/class-theme';
+@import './modules/admin/events/events/events.theme';
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -97,6 +97,7 @@ $typography: mat-typography-config(
     @include auth-register-theme($theme);
     @include subjects-theme($theme);
     @include class-theme($theme);
+    @include calendar-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -109,11 +110,7 @@ $default-accent-palette: mat-palette($mat-light-blue, 600, 400, 700);
 $default-warn-palette: mat-palette($mat-red);
 
 // Create the Material theme object
-$theme: mat-light-theme(
-    $default-primary-palette,
-    $default-accent-palette,
-    $default-warn-palette
-);
+$theme: mat-light-theme($default-primary-palette, $default-accent-palette, $default-warn-palette);
 
 // Add ".theme-default" class to the body to activate this theme.
 // Class name must start with "theme-" !!!
@@ -147,11 +144,7 @@ $yellow-light-theme-accent-palette: mat-palette($mat-yellow, 600, 400, 700);
 $yellow-light-theme-warn-palette: mat-palette($mat-red);
 
 // Create the Material theme object
-$yellow-light-theme: mat-light-theme(
-    $yellow-light-theme-primary-palette,
-    $yellow-light-theme-accent-palette,
-    $yellow-light-theme-warn-palette
-);
+$yellow-light-theme: mat-light-theme($yellow-light-theme-primary-palette, $yellow-light-theme-accent-palette, $yellow-light-theme-warn-palette);
 
 // Add ".theme-yellow-light" class to the body to activate this theme.
 // Class name must start with "theme-" !!!
@@ -185,11 +178,7 @@ $blue-gray-dark-theme-accent-palette: mat-palette($mat-blue-gray);
 $blue-gray-dark-theme-warn-palette: mat-palette($mat-red);
 
 // Create the Material theme object
-$blue-gray-dark-theme: mat-dark-theme(
-    $blue-gray-dark-theme-primary-palette,
-    $blue-gray-dark-theme-accent-palette,
-    $blue-gray-dark-theme-warn-palette
-);
+$blue-gray-dark-theme: mat-dark-theme($blue-gray-dark-theme-primary-palette, $blue-gray-dark-theme-accent-palette, $blue-gray-dark-theme-warn-palette);
 
 // Add ".theme-blue-gray-dark" class to the body to activate this theme.
 // Class name must start with "theme-" !!!
@@ -223,11 +212,7 @@ $pink-dark-theme-accent-palette: mat-palette($mat-pink);
 $pink-dark-theme-warn-palette: mat-palette($mat-red);
 
 // Create the Material theme object
-$pink-dark-theme: mat-dark-theme(
-    $pink-dark-theme-primary-palette,
-    $pink-dark-theme-accent-palette,
-    $pink-dark-theme-warn-palette
-);
+$pink-dark-theme: mat-dark-theme($pink-dark-theme-primary-palette, $pink-dark-theme-accent-palette, $pink-dark-theme-warn-palette);
 
 // Add ".theme-pink-dark" class to the body to activate this theme.
 // Class name must start with "theme-" !!!

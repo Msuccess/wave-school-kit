@@ -1,14 +1,11 @@
 import { Injectable, ErrorHandler } from '@angular/core';
-import {
-    HttpHeaders,
-    HttpClient,
-    HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { RegistrationModel } from 'app/modules/authentication/models/auth.model';
 import { environment } from 'environments/environment';
+import { UsersModel } from './users.model';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,6 +15,11 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class AuthService {
+    usersModel = {} as UsersModel;
+
+    usersDetails = new BehaviorSubject<UsersModel>(this.usersModel);
+    runUsersDetails = this.usersDetails.asObservable();
+
     signupEndPoint = environment.apiUrl + 'auth/register';
     loginEndPoint = environment.apiUrl + 'auth/login';
     userProfileEndPoint = environment.apiUrl + 'user';
@@ -26,16 +28,12 @@ export class AuthService {
 
     // Sign-up
     signUp(user_credential: RegistrationModel): Observable<any> {
-        return this.http
-            .post(this.signupEndPoint, user_credential)
-            .pipe(catchError(this.handleError));
+        return this.http.post(this.signupEndPoint, user_credential).pipe(catchError(this.handleError));
     }
 
     // Sign-in
     signIn(user_credential: RegistrationModel): Observable<any> {
-        return this.http
-            .post<any>(this.loginEndPoint, user_credential)
-            .pipe(catchError(this.handleError));
+        return this.http.post<any>(this.loginEndPoint, user_credential).pipe(catchError(this.handleError));
     }
 
     getToken() {
@@ -86,10 +84,7 @@ export class AuthService {
             console.error('An error occurred:', result.error.message);
             error = result.error;
         } else {
-            console.error(
-                `Backend returned code ${result.status}, ` +
-                    `body was: ${result.error}`
-            );
+            console.error(`Backend returned code ${result.status}, ` + `body was: ${result.error}`);
             error = result.error;
         }
         return throwError(error);
